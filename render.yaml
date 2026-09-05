@@ -10,7 +10,7 @@ services:
     # Ndiyo maana picha zinahifadhiwa Supabase Storage (MEDIA_STORAGE=s3).
     envVars:
       - key: PYTHON_VERSION
-        value: "3.12.7"
+        value: "3.12.11"
       - key: SECRET_KEY
         generateValue: true
       - key: DEBUG

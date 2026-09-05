@@ -1,8 +1,10 @@
-Django==5.1.5
-dj-database-url==2.3.0
-gunicorn==23.0.0
-whitenoise==6.8.2
-Pillow==11.1.0
-psycopg[binary]==3.2.4
-django-storages[s3]==1.14.4
-python-dotenv==1.0.1
+# Pins ni za chini-na-juu, si namba moja kamili. Sababu: wheel za toleo moja
+# hukoma kupatikana Python mpya inapotoka, na build inavunjika ghafla.
+Django>=5.1,<5.3
+dj-database-url>=2.3,<3
+gunicorn>=23,<24
+whitenoise>=6.8,<7
+Pillow>=11,<12
+psycopg[binary]>=3.2.10,<4
+django-storages[s3]>=1.14.4,<2
+python-dotenv>=1.0,<2
