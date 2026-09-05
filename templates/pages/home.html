@@ -1,0 +1,253 @@
+{% extends "base.html" %}
+{% load static amish %}
+
+{% block content %}
+<section class="hero">
+  <div class="stage" data-show="7000" style="position:absolute;inset:0;overflow:hidden">
+    {% for s in slides %}
+      <img class="sl ken{% if forloop.first %} on{% endif %}" src="{% bg s.image "hero-1.jpg" %}" alt="{{ s.headline }}"{% if forloop.first %} fetchpriority="high"{% else %} loading="lazy"{% endif %}>
+    {% empty %}
+      <img class="sl ken on" src="{% static "img/defaults/hero-1.jpg" %}" alt="Vifaa vya ujenzi {{ settings_obj.company_name }}" fetchpriority="high">
+      <img class="sl ken" src="{% static "img/defaults/hero-2.jpg" %}" alt="Nguo {{ settings_obj.company_name }}" loading="lazy">
+      <img class="sl ken" src="{% static "img/defaults/hero-3.jpg" %}" alt="Duka la {{ settings_obj.company_name }}, Kigamboni" loading="lazy">
+    {% endfor %}
+  </div>
+  <div class="veil"></div>
+
+  <svg class="art" viewBox="0 0 600 500" fill="none" aria-hidden="true">
+    <path d="M120 470V210L200 130l80 80v260" stroke="#5C7DF0" stroke-width="2"/>
+    <path d="M280 470V170L360 90l80 80v300" stroke="#5C7DF0" stroke-width="2"/>
+    <path d="M60 300h480M60 340h480M60 380h480" stroke="#5C7DF0" stroke-width="2" stroke-opacity=".55"/>
+    <path d="M200 130l-34 34M200 130l34 34M360 90l-34 34M360 90l34 34" stroke="#7FA0FF" stroke-width="3"/>
+    <path d="M40 440c140-70 300-70 520 0" stroke="#003ABC" stroke-width="26" stroke-opacity=".5"/>
+    <circle cx="300" cy="250" r="215" stroke="#5C7DF0" stroke-width="1.5" stroke-opacity=".35"/>
+  </svg>
+
+  <div class="wrap">
+    <div class="txt on" id="txt">
+      {% with first=slides|nth:0 %}
+      <h1 id="hh">{% if first %}{{ first.headline }}{% else %}{{ settings_obj.company_name }}{% endif %}</h1>
+      <p id="hp">{% if first %}{{ first.subline }}{% else %}{{ settings_obj.short_intro }}{% endif %}</p>
+      <div class="acts">
+        <a class="btn b-solid" href="{% if first.cta_url %}{{ first.cta_url }}{% else %}{% url 'divisions:list' %}{% endif %}">{{ first.cta_label|default:"See what we stock" }}</a>
+        {% if contact.whatsapp %}<a class="btn b-line" href="{% whatsapp contact 'Hello AMISH, could I get a price?' %}" target="_blank" rel="noopener">Ask for a price on WhatsApp</a>{% endif %}
+      </div>
+      {% endwith %}
+    </div>
+  </div>
+
+  <div id="hero-copy" hidden>
+    {% for s in slides %}<div data-h="{{ s.headline }}" data-p="{{ s.subline }}"></div>{% endfor %}
+  </div>
+
+  {% if slides|length > 1 %}
+  <div class="dots"><div class="wrap">
+    {% for s in slides %}<button class="dot{% if forloop.first %} on{% endif %}" data-i="{{ forloop.counter0 }}" aria-label="Slide {{ forloop.counter }}"><i></i></button>{% endfor %}
+  </div></div>
+  {% endif %}
+</section>
+
+<section class="trust">
+  <svg class="bgart" style="inset:0;width:100%;height:100%" preserveAspectRatio="none" aria-hidden="true"><rect width="100%" height="100%" fill="url(#brick)" opacity=".5"/></svg>
+  <div class="wrap">
+    <div><b>{{ contact.ward }}</b><span>{{ contact.street }}</span></div>
+    <div><b>{{ hours|open_days }}</b><span>{{ hours|open_time }}</span></div>
+    <div><b>Today's price by phone</b><span>Call before you travel</span></div>
+    <div><b>Large orders</b><span>We can arrange delivery to site</span></div>
+  </div>
+</section>
+
+<section class="sec" id="matawi">
+  <svg class="bgart" style="right:-160px;top:40px;width:620px;opacity:.5" viewBox="0 0 400 400" aria-hidden="true"><rect width="400" height="400" fill="url(#grid)"/></svg>
+  <div class="wrap">
+    <div class="head rev"><span class="eyebrow">OUR DIVISIONS</span><h2>Two businesses trading today, three in preparation.</h2><p>Each division has its own page, its own stock and its own photographs. The ones still in preparation will appear here the moment they open.</p></div>
+
+    <div class="panels">
+      {% for d in live_divisions %}
+      <a class="panel rev{% if not forloop.first %} d1{% endif %}" href="{{ d.get_absolute_url }}">
+        <div class="stage" data-show="4500" data-delay="{{ forloop.counter0 }}500" data-dots="dots-{{ d.slug }}">
+          {% for s in d.slides.all %}{% if s.is_active %}
+            <img class="sl{% if forloop.first %} on{% endif %}" src="{{ s.image.url }}" alt="{{ s.caption|default:d.name }}" loading="lazy">
+          {% endif %}{% empty %}
+            <img class="sl on" src="{% bg d.cover "hardware-1.jpg" %}" alt="{{ d.name }} — {{ d.tagline }}" loading="lazy">
+          {% endfor %}
+        </div>
+        <svg class="pat" preserveAspectRatio="none" aria-hidden="true"><rect width="100%" height="100%" fill="url(#{% if forloop.first %}brick{% else %}weave{% endif %})"/></svg>
+        <div class="pdots" id="dots-{{ d.slug }}"></div>
+        <div class="in">
+          <h3>{{ d.name|cut:"AMISH " }}</h3>
+          <p>{{ d.tagline }}</p>
+          <span class="go">Open {{ d.name|cut:"AMISH " }}</span>
+        </div>
+      </a>
+      {% endfor %}
+    </div>
+
+    {% if upcoming %}
+    <div class="soonrow">
+      {% for d in upcoming %}
+      <div class="soon rev{% if forloop.counter0 %} d{{ forloop.counter0 }}{% endif %}">
+        <b>{{ d.name|cut:"AMISH " }}</b><span>{{ d.launch_note|default:"In preparation" }}</span>
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+  </div>
+</section>
+
+{% if stats %}
+<section class="figures">
+  <div class="wrap">
+    {% for st in stats %}
+    <div class="figure rev{% if forloop.counter0 %} d{{ forloop.counter0 }}{% endif %}">
+      <b>{{ st.value }}</b><span>{{ st.label }}</span>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+{% endif %}
+
+{% if featured %}
+<section class="sec paper">
+  <svg class="bgart" style="left:-140px;bottom:-60px;width:520px;opacity:.4" viewBox="0 0 300 300" fill="none" aria-hidden="true">
+    <circle cx="150" cy="150" r="148" stroke="#003ABC"/><circle cx="150" cy="150" r="108" stroke="#003ABC"/><circle cx="150" cy="150" r="68" stroke="#003ABC"/>
+  </svg>
+  <div class="wrap">
+    <div class="railtop rev">
+      <div class="head" style="margin:0"><span class="eyebrow">PRODUCTS</span><h2>What people ask for most</h2>
+        <p>A selection of what moves fastest off our shelves. Prices on cement and bricks change with the market, so where you see "Ask for price" it means we would rather quote you today's figure than leave a stale one on a web page.</p></div>
+      <div class="arrows"><button id="prev" aria-label="Previous">&larr;</button><button id="next" aria-label="Next">&rarr;</button></div>
+    </div>
+    <div class="rail rev" id="rail">
+      {% for p in featured %}
+      <a class="card" href="{{ p.get_absolute_url }}">
+        <img class="ph" src="{% bg p.image "p-saruji.jpg" %}" alt="{{ p.name }} — {{ p.division.name }}" loading="lazy">
+        <div class="body">
+          <h4>{{ p.name }}</h4>
+          <p>{{ p.summary }}</p>
+          {% if p.show_price and p.price %}<span class="price">{{ p.price|tsh }}{% if p.unit %} <small>{{ p.unit }}</small>{% endif %}</span>
+          {% else %}<span class="ask">Ask for price</span>{% endif %}
+        </div>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+{% if reasons %}
+<section class="sec">
+  <svg class="bgart" style="inset:0;width:100%;height:100%" preserveAspectRatio="xMidYMid slice" viewBox="0 0 1200 600" fill="none" aria-hidden="true">
+    <path d="M180 600V300l120-120 120 120v300M560 600V250l120-120 120 120v350M900 600V330l120-120 120 120v270" stroke="#003ABC" stroke-opacity=".13" stroke-width="2"/>
+    <path d="M0 420h1200M0 470h1200M0 520h1200" stroke="#003ABC" stroke-opacity=".08" stroke-width="2"/>
+    <path d="M300 180l-42 42M300 180l42 42M680 130l-42 42M680 130l42 42M1020 210l-42 42M1020 210l42 42" stroke="#003ABC" stroke-opacity=".18" stroke-width="4"/>
+  </svg>
+  <div class="wrap">
+    <div class="head rev"><span class="eyebrow">WHY AMISH</span><h2>Four reasons to buy here.</h2>
+      <p>We are a young company, so we compete on the things you can judge on your first visit rather than on a long history we do not yet have.</p></div>
+    <div class="why">
+      {% for r in reasons %}
+      <div class="wcard rev{% if forloop.counter0 %} d{{ forloop.counter0 }}{% endif %}">
+        <div class="n">0{{ forloop.counter }}</div>
+        <h4>{{ r.title }}</h4>
+        <p>{{ r.description }}</p>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<svg class="wave" viewBox="0 0 1440 110" preserveAspectRatio="none" aria-hidden="true">
+  <path d="M0 60c220-70 460-70 720-14s520 66 720 4v60H0z" fill="#0A1B4A"/>
+  <path d="M0 76c240-64 470-58 720-6s500 62 720 8" stroke="#003ABC" stroke-width="6" fill="none" opacity=".8"/>
+</svg>
+
+<section class="band" id="kuhusu">
+  <div class="stage" data-show="9000">
+    {% for s in band_slides %}
+      <img class="sl ken{% if forloop.first %} on{% endif %}" src="{{ s.image.url }}" alt="{{ s.caption|default:settings_obj.company_name }}" loading="lazy">
+    {% empty %}
+      <img class="sl ken on" src="{% static "img/defaults/band-1.jpg" %}" alt="{{ settings_obj.company_name }}" loading="lazy">
+      <img class="sl ken" src="{% static "img/defaults/band-2.jpg" %}" alt="Duka la {{ settings_obj.company_name }}" loading="lazy">
+      <img class="sl ken" src="{% static "img/defaults/band-3.jpg" %}" alt="Matofali {{ settings_obj.company_name }}" loading="lazy">
+    {% endfor %}
+  </div>
+  <div class="tint"></div>
+  <svg class="art" viewBox="0 0 1200 500" fill="none" aria-hidden="true">
+    <path d="M100 480V240l150-150 150 150v240M480 480V180l150-150 150 150v300M860 480V280l150-150 150 150v200" stroke="#fff" stroke-width="2"/>
+    <path d="M0 380h1200M0 420h1200" stroke="#fff" stroke-width="2" stroke-opacity=".6"/>
+    <path d="M250 90l-52 52M250 90l52 52M630 30l-52 52M630 30l52 52M1010 130l-52 52M1010 130l52 52" stroke="#fff" stroke-width="5"/>
+  </svg>
+  <div class="wrap">
+    {% if about.vision_en %}
+    <div class="rev"><span class="eyebrow" style="color:#8FADFF">VISION</span><h3>{{ about.vision_en }}</h3>{% if about.vision_sw %}<p class="sw">{{ about.vision_sw }}</p>{% endif %}</div>
+    {% endif %}
+    {% if about.mission_en %}
+    <div class="rev d1"><span class="eyebrow" style="color:#8FADFF">MISSION</span><h3>{{ about.mission_en }}</h3>{% if about.mission_sw %}<p class="sw">{{ about.mission_sw }}</p>{% endif %}</div>
+    {% endif %}
+  </div>
+</section>
+
+<section class="sec paper" id="gallery" style="padding-bottom:0">
+  <svg class="bgart" style="right:-100px;top:-80px;width:460px;opacity:.5" viewBox="0 0 300 300" aria-hidden="true"><rect width="300" height="300" fill="url(#grid)"/></svg>
+  <div class="wrap"><div class="head rev"><span class="eyebrow">GALLERY</span><h2>Inside {{ settings_obj.company_name|cut:" Company Limited" }}.</h2><p>Our shop, our stock and the work we do every day.</p></div></div>
+</section>
+<div class="marq" style="background:var(--paper)">
+  <div class="track">
+    {% for pass in "12" %}
+      {% for g in strip %}
+        <figure><img src="{{ g.image.url }}" alt="{{ g.caption|default:settings_obj.company_name }}" loading="lazy">{% if g.caption %}<figcaption>{{ g.caption }}</figcaption>{% endif %}</figure>
+      {% empty %}
+        {% for n in "12345678" %}
+          <figure><img src="{% static "img/defaults/g-"|add:n|add:".jpg" %}" alt="{{ settings_obj.company_name }}" loading="lazy"></figure>
+        {% endfor %}
+      {% endfor %}
+    {% endfor %}
+  </div>
+</div>
+
+{% if values %}
+<section class="sec paper" style="padding-top:0">
+  <div class="wrap">
+    <div class="head rev"><span class="eyebrow">WHAT WE STAND FOR</span><h2>The standards we hold ourselves to.</h2>
+      <p>These are not decorations for a wall. They are the rules we use when a decision is difficult — when a supplier offers cheap stock we are unsure about, or when an order runs late and it would be easier to stay quiet.</p></div>
+    <div class="vals">
+      {% for v in values %}
+      <div class="val rev{% if forloop.counter0 %} d{{ forloop.counter0 }}{% endif %}"><h4>{{ v.title }}</h4><p>{{ v.description }}</p></div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+{% if testimonials %}
+<section class="sec">
+  <div class="wrap">
+    <div class="head rev"><span class="eyebrow">CUSTOMERS</span><h2>What our customers say.</h2></div>
+    <div class="vals">
+      {% for t in testimonials %}
+      <div class="val rev"><h4>{{ t.author }}</h4><p>{{ t.quote }}</p></div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<section class="sec paper">
+  <div class="wrap">
+    <div class="head rev"><span class="eyebrow">SEND US A MESSAGE</span><h2>Tell us what you need and we will come back with a price.</h2>
+      <p>Give us a rough idea of the quantity and when you need it. We will reply with today's price, confirm what is in stock, and tell you honestly if we cannot meet your date.</p></div>
+    <form class="form rev" method="post" action="{% url 'core:contact' %}" style="max-width:720px">
+      {% csrf_token %}
+      <div class="form__row">
+        <div><label for="id_name">Name</label>{{ form.name }}</div>
+        <div><label for="id_phone">Phone</label>{{ form.phone }}</div>
+      </div>
+      <div><label for="id_message">What do you need?</label>{{ form.message }}</div>
+      {{ form.website }}
+      <button class="btn b-solid" type="submit">Send message</button>
+    </form>
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,43 @@
+{% load static amish %}<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% block title %}{{ settings_obj.company_name }} — {{ settings_obj.slogan }}{% endblock %}</title>
+<meta name="description" content="{% block description %}{{ settings_obj.meta_description|default:settings_obj.short_intro }}{% endblock %}">
+<meta name="theme-color" content="{{ settings_obj.color_primary }}">
+<meta property="og:site_name" content="{{ settings_obj.company_name }}">
+<meta property="og:title" content="{% block og_title %}{{ settings_obj.company_name }}{% endblock %}">
+<meta property="og:type" content="website">
+{% if settings_obj.og_image %}<meta property="og:image" content="{{ settings_obj.og_image.url }}">{% endif %}
+{% if settings_obj.favicon %}<link rel="icon" href="{{ settings_obj.favicon.url }}">{% endif %}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{% static 'css/site.css' %}">
+<style>:root{--blue:{{ settings_obj.color_primary|default:"#003ABC" }};--ink:{{ settings_obj.color_ink|default:"#0B0D12" }}}</style>
+{% block head_extra %}{% endblock %}
+</head>
+<body>
+{% include "partials/patterns.html" %}
+<div class="prog" id="prog"></div>
+{% include "partials/header.html" %}
+
+<main id="main">
+  {% if messages %}
+    <div class="wrap" style="padding-top:110px">
+      {% for message in messages %}<p class="flash flash--{{ message.tags }}">{{ message }}</p>{% endfor %}
+    </div>
+  {% endif %}
+  {% block content %}{% endblock %}
+</main>
+
+{% include "partials/footer.html" %}
+{% if contact.whatsapp %}
+<a class="wa" href="{% whatsapp contact 'Hello AMISH, I would like some help.' %}" target="_blank" rel="noopener" aria-label="Message us on WhatsApp">
+  <svg viewBox="0 0 24 24" width="26" height="26" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2Zm5.5 14.1c-.2.6-1.2 1.2-1.7 1.2-.5.1-1 .1-1.6-.1-.4-.1-.9-.3-1.5-.6-2.6-1.1-4.3-3.7-4.4-3.9-.1-.2-1-1.4-1-2.6s.6-1.8.9-2.1c.2-.2.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 1.9c.1.2.1.4 0 .5l-.4.5c-.1.2-.3.3-.1.6.1.2.6 1 1.3 1.6.9.8 1.6 1 1.8 1.1.2.1.4.1.5-.1l.7-.8c.2-.2.3-.2.6-.1l1.8.9c.3.1.4.2.5.3.1.2.1.7-.1 1.3Z"/></svg>
+</a>
+{% endif %}
+<script src="{% static 'js/site.js' %}" defer></script>
+</body>
+</html>

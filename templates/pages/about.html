@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% load static amish %}
+{% block title %}About us — {{ settings_obj.company_name }}{% endblock %}
+{% block content %}
+{% include "partials/phead.html" with heading="About AMISH" sub=about.intro cover=about.story_image %}
+
+{% if about.story %}
+<section class="sec">
+  <svg class="bgart" style="left:-140px;top:40px;width:480px;opacity:.4" viewBox="0 0 300 300" aria-hidden="true"><rect width="300" height="300" fill="url(#grid)"/></svg>
+  <div class="wrap">
+    <div class="split">
+      <div class="prose rev"><span class="eyebrow">OUR STORY</span><h2 style="font-size:clamp(1.8rem,3.4vw,2.7rem);margin-bottom:18px">How we started.</h2>{{ about.story|linebreaks }}</div>
+      <div class="split__media rev d1"><img src="{% bg about.story_image "band-1.jpg" %}" alt="{{ settings_obj.company_name }}" loading="lazy"></div>
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<svg class="wave" viewBox="0 0 1440 110" preserveAspectRatio="none" aria-hidden="true">
+  <path d="M0 60c220-70 460-70 720-14s520 66 720 4v60H0z" fill="#0A1B4A"/>
+  <path d="M0 76c240-64 470-58 720-6s500 62 720 8" stroke="#003ABC" stroke-width="6" fill="none" opacity=".8"/>
+</svg>
+
+<section class="band">
+  <div class="tint"></div>
+  <svg class="art" viewBox="0 0 1200 500" fill="none" aria-hidden="true">
+    <path d="M100 480V240l150-150 150 150v240M480 480V180l150-150 150 150v300M860 480V280l150-150 150 150v200" stroke="#fff" stroke-width="2"/>
+    <path d="M0 380h1200M0 420h1200" stroke="#fff" stroke-width="2" stroke-opacity=".6"/>
+  </svg>
+  <div class="wrap">
+    {% if about.vision_en %}<div class="rev"><span class="eyebrow" style="color:#8FADFF">VISION</span><h3>{{ about.vision_en }}</h3>{% if about.vision_sw %}<p class="sw">{{ about.vision_sw }}</p>{% endif %}</div>{% endif %}
+    {% if about.mission_en %}<div class="rev d1"><span class="eyebrow" style="color:#8FADFF">MISSION</span><h3>{{ about.mission_en }}</h3>{% if about.mission_sw %}<p class="sw">{{ about.mission_sw }}</p>{% endif %}</div>{% endif %}
+  </div>
+</section>
+
+{% if values %}
+<section class="sec">
+  <div class="wrap">
+    <div class="head rev"><span class="eyebrow">CORE VALUES</span><h2>What we stand for.</h2></div>
+    <div class="vals">{% for v in values %}<div class="val rev"><h4>{{ v.title }}</h4><p>{{ v.description }}</p></div>{% endfor %}</div>
+  </div>
+</section>
+{% endif %}
+
+{% if milestones %}
+<section class="sec paper">
+  <div class="wrap">
+    <div class="head rev"><span class="eyebrow">OUR PROGRESS</span><h2>The road so far.</h2></div>
+    <div class="timeline rev">
+      {% for m in milestones %}
+      <div class="timeline__item"><div class="timeline__year">{{ m.year }}</div><h4 style="font-weight:800;letter-spacing:-.02em">{{ m.title }}</h4>{% if m.description %}<p style="color:var(--mute)">{{ m.description }}</p>{% endif %}</div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+{% if team %}
+<section class="sec">
+  <div class="wrap">
+    <div class="head rev"><span class="eyebrow">LEADERSHIP</span><h2>The people running AMISH.</h2></div>
+    <div class="team rev">
+      {% for p in team %}
+      <div class="person">
+        <div class="person__photo">{% if p.photo %}<img src="{{ p.photo.url }}" alt="{{ p.full_name }}" loading="lazy">{% endif %}</div>
+        <h4>{{ p.full_name }}</h4><p class="person__role">{{ p.position }}</p>
+        {% if p.bio %}<p class="person__bio">{{ p.bio }}</p>{% endif %}
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+{% endblock %}

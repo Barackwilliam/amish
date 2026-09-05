@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% load static amish %}
+{% block title %}{{ product.meta_title|default:product.name }} — {{ settings_obj.company_name }}{% endblock %}
+{% block description %}{{ product.meta_description|default:product.summary }}{% endblock %}
+
+{% block content %}
+{% include "partials/phead.html" with heading=product.name sub=product.summary cover=product.image crumbs=1 %}
+
+<section class="sec">
+  <div class="wrap">
+    <div class="detail">
+      <div class="detail__main rev">
+        <img src="{% bg product.image "p-saruji.jpg" %}" alt="{{ product.name }}" data-main-image>
+        {% if product.images.all %}
+        <div class="detail__thumbs">
+          {% if product.image %}<img src="{{ product.image.url }}" data-thumb="{{ product.image.url }}" alt="" loading="lazy">{% endif %}
+          {% for img in product.images.all %}<img src="{{ img.image.url }}" data-thumb="{{ img.image.url }}" alt="{{ img.caption }}" loading="lazy">{% endfor %}
+        </div>
+        {% endif %}
+      </div>
+
+      <div class="rev d1">
+        <span class="eyebrow">{{ product.division.name }}</span>
+        {% if product.show_price and product.price %}
+          <p class="detail__price">{{ product.price|tsh }}{% if product.unit %} <small>{{ product.unit }}</small>{% endif %}</p>
+        {% endif %}
+        {% if not product.in_stock %}<p class="out">Currently out of stock</p>{% endif %}
+        {% if product.description %}<div class="prose">{{ product.description|linebreaks }}</div>{% endif %}
+        {% if contact.whatsapp %}
+        <p style="margin:20px 0"><a class="btn b-solid" href="{% whatsapp contact product.name %}" target="_blank" rel="noopener">Ask for a price on WhatsApp</a></p>
+        {% endif %}
+
+        <h4 style="font-weight:800;letter-spacing:-.02em;margin-bottom:14px">Or leave us a message</h4>
+        <form class="form" method="post">
+          {% csrf_token %}
+          {{ form.non_field_errors }}
+          <div class="form__row">
+            <div><label for="id_name">Name</label>{{ form.name }}{{ form.name.errors }}</div>
+            <div><label for="id_phone">Phone</label>{{ form.phone }}{{ form.phone.errors }}</div>
+          </div>
+          <div><label for="id_message">Message</label>{{ form.message }}{{ form.message.errors }}</div>
+          {{ form.division }}{{ form.product }}{{ form.website }}
+          <button class="btn b-solid" type="submit">Send</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% if related %}
+<section class="sec paper">
+  <div class="wrap">
+    <div class="head rev"><span class="eyebrow">MORE</span><h2>More from {{ division.name|cut:"AMISH " }}.</h2></div>
+    <div class="products rev">
+      {% for p in related %}
+      <a class="card" href="{{ p.get_absolute_url }}">
+        <img class="ph" src="{% bg p.image "p-saruji.jpg" %}" alt="{{ p.name }}" loading="lazy">
+        <div class="body"><h4>{{ p.name }}</h4>
+        {% if p.show_price and p.price %}<span class="price">{{ p.price|tsh }}</span>{% else %}<span class="ask">Ask for price</span>{% endif %}</div>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+{% endblock %}

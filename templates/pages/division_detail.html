@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+{% load static amish %}
+{% block title %}{{ division.meta_title|default:division.name }} — {{ settings_obj.company_name }}{% endblock %}
+{% block description %}{{ division.meta_description|default:division.tagline }}{% endblock %}
+
+{% block content %}
+{% include "partials/phead.html" with heading=division.name sub=division.tagline cover=division.cover slides=slides %}
+
+{% if division.description %}
+<section class="sec">
+  <svg class="bgart" style="right:-140px;top:20px;width:520px;opacity:.45" viewBox="0 0 300 300" aria-hidden="true"><rect width="300" height="300" fill="url(#grid)"/></svg>
+  <div class="wrap"><div class="prose rev">{{ division.description|linebreaks }}</div></div>
+</section>
+{% endif %}
+
+{% if services %}
+<section class="sec paper">
+  <div class="wrap">
+    <div class="head rev"><span class="eyebrow">SERVICES</span><h2>What we offer.</h2></div>
+    <div class="vals">
+      {% for s in services %}<div class="val rev"><h4>{{ s.name }}</h4><p>{{ s.summary }}</p></div>{% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+{% if products %}
+<section class="sec">
+  <div class="wrap">
+    <div class="head rev"><span class="eyebrow">PRODUCTS</span><h2>What is on our shelves.</h2>
+      <p>Use the filters to narrow by category. Where a price is not shown, it is because the figure moves with the market and we would rather quote you today's than an old one.</p></div>
+    {% if categories %}
+    <div class="filters rev">
+      <a href="{{ division.get_absolute_url }}" class="{% if not active_category %}is-on{% endif %}">All</a>
+      {% for c in categories %}<a href="?category={{ c.slug }}" class="{% if active_category.pk == c.pk %}is-on{% endif %}">{{ c.name }}</a>{% endfor %}
+    </div>
+    {% endif %}
+    <div class="products rev">
+      {% for p in products %}
+      <a class="card" href="{{ p.get_absolute_url }}">
+        <img class="ph" src="{% bg p.image "p-saruji.jpg" %}" alt="{{ p.name }} — {{ division.name }}" loading="lazy">
+        <div class="body">
+          <h4>{{ p.name }}</h4>
+          <p>{{ p.summary }}</p>
+          {% if not p.in_stock %}<span class="out">Out of stock</span>{% endif %}
+          {% if p.show_price and p.price %}<span class="price">{{ p.price|tsh }}{% if p.unit %} <small>{{ p.unit }}</small>{% endif %}</span>
+          {% else %}<span class="ask">Ask for price</span>{% endif %}
+        </div>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+{% if gallery %}
+<section class="sec paper">
+  <div class="wrap">
+    <div class="head rev"><span class="eyebrow">GALLERY</span><h2>Inside {{ division.name|cut:"AMISH " }}.</h2></div>
+    <div class="grid-photos rev">
+      {% for g in gallery %}
+      <figure><img src="{{ g.image.url }}" alt="{{ g.caption }}" loading="lazy">{% if g.caption %}<figcaption>{{ g.caption }}</figcaption>{% endif %}</figure>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<section class="band">
+  <div class="tint"></div>
+  <svg class="art" viewBox="0 0 1200 500" fill="none" aria-hidden="true">
+    <path d="M100 480V240l150-150 150 150v240M480 480V180l150-150 150 150v300M860 480V280l150-150 150 150v200" stroke="#fff" stroke-width="2"/>
+    <path d="M0 380h1200M0 420h1200" stroke="#fff" stroke-width="2" stroke-opacity=".6"/>
+  </svg>
+  <div class="wrap" style="grid-template-columns:1fr">
+    <div class="rev">
+      <h3>Get today's {{ division.name|cut:"AMISH " }} price now.</h3>
+      <p>Call us or send a WhatsApp message and we will give you the current price and tell you what is in stock, before you make the journey.</p>
+      <div class="acts" style="margin-top:22px">
+        {% if contact.whatsapp %}<a class="btn b-solid" href="{% whatsapp contact division.name %}" target="_blank" rel="noopener">Message us on WhatsApp</a>{% endif %}
+        {% if contact.phone_primary %}<a class="btn b-line" href="tel:{{ contact.phone_primary }}">{{ contact.phone_primary }}</a>{% endif %}
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

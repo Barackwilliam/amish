@@ -1,0 +1,6 @@
+{% extends "base.html" %}
+{% block title %}Ukurasa haupo — {{ settings_obj.company_name }}{% endblock %}
+{% block content %}
+{% include "partials/phead.html" with heading="This page does not exist" sub="The link may have changed. Go back to the home page, or open the division you were looking for." %}
+<section class="sec"><div class="wrap"><a class="btn b-solid" href="{% url 'core:home' %}">Back to home</a></div></section>
+{% endblock %}

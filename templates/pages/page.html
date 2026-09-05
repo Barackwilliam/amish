@@ -1,0 +1,6 @@
+{% extends "base.html" %}
+{% block title %}{{ page.meta_title|default:page.title }} — {{ settings_obj.company_name }}{% endblock %}
+{% block content %}
+{% include "partials/phead.html" with heading=page.title %}
+<section class="sec"><div class="wrap"><div class="prose rev">{{ page.body|linebreaks }}</div></div></section>
+{% endblock %}

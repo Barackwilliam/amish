@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}Gallery — {{ settings_obj.company_name }}{% endblock %}
+{% block content %}
+{% include "partials/phead.html" with heading="Gallery" sub="Our shop, our stock and the work we do." %}
+<section class="sec">
+  <div class="wrap">
+    {% if images %}
+    <div class="grid-photos rev">
+      {% for g in images %}
+      <figure><img src="{{ g.image.url }}" alt="{{ g.caption }}" loading="lazy">{% if g.caption %}<figcaption>{{ g.caption }}</figcaption>{% endif %}</figure>
+      {% endfor %}
+    </div>
+    {% else %}
+    <p class="head">Photographs will be added here shortly.</p>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}
