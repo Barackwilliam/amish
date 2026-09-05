@@ -341,3 +341,73 @@ h1,h2,h3{line-height:1.06;letter-spacing:-.035em;font-weight:800}
   .val{padding-left:18px}
   .foot .grid{gap:30px}
 }
+
+
+
+/* ===== AMISH — marekebisho ya simu na tablet ===== */
+@media (max-width: 1024px) {
+
+  /* Hero: urefu unafuata maandishi badala ya skrini nzima */
+  .hero {
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    padding: 104px 0 36px !important;
+  }
+  .hero .wrap { justify-content: flex-start !important; }
+  .hero h1 {
+    font-size: clamp(1.9rem, 7.6vw, 2.7rem) !important;
+    max-width: none !important;
+    margin-bottom: 14px !important;
+  }
+  .hero p {
+    font-size: 1rem !important;
+    margin-bottom: 20px !important;
+    max-width: none !important;
+  }
+  .hero .acts { gap: 10px !important; }
+  .hero .acts .btn { width: 100% !important; text-align: center !important; }
+  .hero .art { display: none !important; }
+
+  /* Mistari ya slides ishuke chini ya vitufe */
+  .dots { position: static !important; margin-top: 22px !important; }
+  .dots .wrap { width: 100% !important; padding: 0 !important; }
+  .dot { max-width: none !important; }
+
+  /* Gridi zote: safu moja */
+  .why,
+  .trust .wrap,
+  .panels,
+  .soonrow,
+  .vals,
+  .products,
+  .team,
+  .quotes,
+  .band .wrap,
+  .split,
+  .detail,
+  .foot .grid,
+  .form__row,
+  .figures .wrap { grid-template-columns: 1fr !important; }
+
+  /* Kadi za "Four reasons" zisomeke */
+  .why { gap: 14px !important; }
+  .wcard { padding: 24px 22px !important; }
+  .wcard .n {
+    font-size: 1.4rem !important;
+    opacity: .5 !important;
+    margin-bottom: 10px !important;
+  }
+  .wcard h4 { font-size: 1.12rem !important; }
+  .wcard p { font-size: .96rem !important; line-height: 1.6 !important; }
+
+  .trust .wrap { gap: 1px !important; }
+  .phead { padding: 96px 0 40px !important; }
+  .sec { padding: 52px 0 !important; }
+  .head h2 { font-size: 1.6rem !important; }
+}
+
+@media (max-width: 400px) {
+  .hero { padding: 96px 0 30px !important; }
+  .hero h1 { font-size: 1.8rem !important; }
+}
