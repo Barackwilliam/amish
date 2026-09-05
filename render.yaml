@@ -3,7 +3,7 @@ services:
     name: amish
     runtime: python
     plan: free
-    buildCommand: "./build.sh"
+    buildCommand: "pip install -r requirements.txt && python manage.py collectstatic --no-input && python manage.py migrate --no-input"
     startCommand: "gunicorn config.wsgi:application --workers 2 --timeout 60"
     healthCheckPath: /
     # Hakuna disk: free tier haiiruhusu, na bila disk picha zinapotea kila deploy.

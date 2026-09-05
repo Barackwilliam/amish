@@ -57,6 +57,27 @@ kasi ya site. Angalia `core/imaging.py`.
 
 `render.yaml` ipo tayari — Render itaisoma yenyewe (Blueprint).
 
+Ukitengeneza service kwa mkono badala ya Blueprint, weka **Build Command** hii
+(usitumie `./build.sh` — ruhusa ya kutekeleza hupotea ukisukuma kutoka Windows):
+
+```
+pip install -r requirements.txt && python manage.py collectstatic --no-input && python manage.py migrate --no-input
+```
+
+**Start Command:**
+
+```
+gunicorn config.wsgi:application
+```
+
+Baada ya deploy ya kwanza, fungua Shell ya Render na uendeshe:
+
+```
+python manage.py seed_amish
+python manage.py seed_products
+python manage.py createsuperuser
+```
+
 Env vars zinazohitajika:
 
 | Key | Thamani |
