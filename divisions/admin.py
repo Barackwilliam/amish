@@ -13,8 +13,9 @@ from .models import (
 class CategoryInline(admin.TabularInline):
     model = Category
     extra = 0
+    # slug haipo hapa kwa makusudi: inajitengeneza kwenye Category.save().
+    # Ikiwekwa prepopulated_fields bila shamba lenyewe, admin inavunjika.
     fields = ("name", "description", "image", "order", "is_active")
-    prepopulated_fields = {"slug": ("name",)}
 
 
 class DivisionImageInline(admin.TabularInline):
