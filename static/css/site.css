@@ -166,7 +166,8 @@ h1,h2,h3{line-height:1.06;letter-spacing:-.035em;font-weight:800}
 .base{border-top:1px solid rgba(255,255,255,.1);padding-top:22px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;font-size:.85rem;position:relative;z-index:3}
 .wa{position:fixed;right:18px;bottom:18px;z-index:90;width:56px;height:56px;border-radius:50%;background:#1FA855;display:grid;place-items:center;color:#fff;font-weight:800;box-shadow:0 10px 26px rgba(0,0,0,.25);animation:pulse 2.6s infinite}
 @keyframes pulse{50%{box-shadow:0 10px 26px rgba(0,0,0,.25),0 0 0 14px rgba(31,168,85,.14)}}
-@media(max-width:980px){.panels,.band .wrap,.foot .grid{grid-template-columns:1fr}.why,.trust .wrap{grid-template-columns:1fr 1fr}.soonrow{grid-template-columns:1fr}.bar .tel{display:none}.hero .art{opacity:.18;right:-170px}}
+@media (min-width:761px) and (max-width:980px){.panels,.band .wrap,.foot .grid{grid-template-columns:1fr}.why,.trust .wrap{grid-template-columns:1fr 1fr}.soonrow{grid-template-columns:1fr}}
+@media (max-width:980px){.bar .tel{display:none}.hero .art{opacity:.18;right:-170px}}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.rev{opacity:1;transform:none}.txt>*{opacity:1;transform:none}.sl:first-child{opacity:1}}
 
 /* ---------- Kurasa za ndani ---------- */
