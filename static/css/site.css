@@ -658,3 +658,58 @@ main{animation:pageIn .5s var(--ease) both}
   .dnav a{font-size:1.32rem;padding:13px 12px 13px 14px}
   .drawer__brand b{font-size:1.05rem}
 }
+
+/* ================== Utangulizi: logo inayojichora ================== */
+.intro{position:fixed;inset:0;z-index:200;display:grid;place-items:center;
+  background:radial-gradient(120% 100% at 50% 40%,#12235E 0%,#0A1B4A 45%,#060B1C 100%);
+  opacity:1;transition:opacity .7s var(--ease),visibility .7s}
+.intro.done{opacity:0;visibility:hidden;pointer-events:none}
+.intro__mark{width:min(72vw,340px);height:auto}
+body.intro-on{overflow:hidden}
+
+/* Duara zinajichora */
+.i-ring{stroke-dasharray:1300;stroke-dashoffset:1300;
+  animation:draw 1.05s var(--ease) forwards}
+.i-ring--out{animation-delay:.05s}
+.i-ring--mid{animation-delay:.16s;stroke:#7FA0FF;opacity:.5}
+.i-ring--in{animation-delay:.26s}
+
+/* Mistari inatoka katikati kwenda pembeni */
+.i-line{stroke-dasharray:270;stroke-dashoffset:270;animation:draw .55s var(--ease) forwards}
+.i-line--1{animation-delay:.85s}
+.i-line--2{animation-delay:.92s;stroke:#fff;opacity:.75}
+.i-line--3{animation-delay:.99s}
+
+/* Mishale */
+.i-arrow{stroke-dasharray:90;stroke-dashoffset:90;animation:draw .45s var(--ease) forwards}
+.i-arrow--l{animation-delay:1.10s}
+.i-arrow--c{animation-delay:1.18s;stroke:#fff}
+.i-arrow--r{animation-delay:1.26s}
+
+/* Wimbi */
+.i-wave{stroke-dasharray:400;stroke-dashoffset:400;opacity:.85;
+  animation:draw .8s var(--ease) 1.34s forwards}
+
+/* Herufi zinaandikwa moja baada ya nyingine */
+.i-l{opacity:0;animation:letter .5s var(--ease) forwards}
+.i-l1{animation-delay:.42s}.i-l2{animation-delay:.52s}.i-l3{animation-delay:.62s}
+.i-l4{animation-delay:.72s}.i-l5{animation-delay:.82s}
+.i-word .i-l{fill:#fff}
+.i-word .i-l2,.i-word .i-l4,.i-word .i-l5{fill:#fff}
+.i-word .i-l1,.i-word .i-l3{fill:#5C7DF0}
+
+/* Tagline */
+.i-tag{opacity:0;fill:#8FA0C4;animation:tagIn .7s var(--ease) 1.5s forwards}
+
+@keyframes draw{to{stroke-dashoffset:0}}
+@keyframes letter{
+  0%{opacity:0;transform:translateY(14px) scale(.9)}
+  100%{opacity:1;transform:none}
+}
+@keyframes tagIn{from{opacity:0;letter-spacing:4px}to{opacity:1;letter-spacing:0}}
+
+.i-l{transform-box:fill-box;transform-origin:center}
+
+@media (prefers-reduced-motion:reduce){
+  .intro{display:none}
+}
