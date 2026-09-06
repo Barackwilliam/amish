@@ -23,23 +23,68 @@
 
 <div class="scrim" id="scrim"></div>
 <aside class="drawer" id="drawer" aria-label="Main menu">
+  <span class="drawer__glow"></span>
   <svg class="deco" viewBox="0 0 200 200" fill="none" aria-hidden="true">
     <path d="M40 190V70L70 40l30 30v120M100 190V50l30-30 30 30v140" stroke="#fff" stroke-width="3"/>
     <path d="M10 150h180M10 168h180" stroke="#fff" stroke-width="3"/>
   </svg>
-  <button class="x" id="close" aria-label="Close menu">&times;</button>
+
+  <div class="drawer__top">
+    <a class="drawer__brand" href="{% url 'core:home' %}">
+      {% if settings_obj.logo %}
+        <img src="{{ settings_obj.logo.url }}" alt="" width="44" height="44">
+      {% else %}<i></i>{% endif %}
+      <span>
+        <b>{{ settings_obj.company_name|cut:" Company Limited" }}</b>
+        <s>{{ settings_obj.slogan }}</s>
+      </span>
+    </a>
+    <button class="x" id="close" aria-label="Close menu">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+  </div>
+
   <nav class="dnav">
-    <a href="{% url 'core:home' %}">Home</a>
+    <a href="{% url 'core:home' %}"><span class="dnav__txt">Home</span><i class="dnav__go"></i></a>
     {% for d in nav_divisions %}
-      <a href="{{ d.get_absolute_url }}">{{ d.name|cut:"AMISH " }}<small>{{ d.tagline|truncatechars:52 }}</small></a>
+      <a href="{{ d.get_absolute_url }}">
+        <span class="dnav__txt">{{ d.name|cut:"AMISH " }}<small>{{ d.tagline|truncatechars:54 }}</small></span>
+        <i class="dnav__go"></i>
+      </a>
     {% endfor %}
-    <a href="{% url 'core:about' %}">About us</a>
-    <a href="{% url 'core:gallery' %}">Gallery</a>
-    <a href="{% url 'core:contact' %}">Contact</a>
+    <a href="{% url 'core:about' %}"><span class="dnav__txt">About us</span><i class="dnav__go"></i></a>
+    <a href="{% url 'core:gallery' %}"><span class="dnav__txt">Gallery</span><i class="dnav__go"></i></a>
+    <a href="{% url 'core:contact' %}"><span class="dnav__txt">Contact</span><i class="dnav__go"></i></a>
   </nav>
+
   <div class="dfoot">
-    <span><b>{{ contact.phone_primary }}</b>{% if contact.phone_secondary %} &nbsp;·&nbsp; {{ contact.phone_secondary }}{% endif %}</span>
-    <span>{{ contact.full_address }}</span>
-    <span>{{ hours|open_days }} &nbsp;{{ hours|open_time }}</span>
+    {% if contact.phone_primary %}
+    <p class="dfoot__line">
+      <span class="dfoot__ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 3h4l2 5-2.5 1.5a12 12 0 0 0 4.5 4.5L16 11.5l5 2v4a2 2 0 0 1-2.2 2A16 16 0 0 1 4.5 5.2 2 2 0 0 1 6.5 3Z"/></svg></span>
+      <a href="tel:{{ contact.phone_primary }}">{{ contact.phone_primary }}</a>{% if contact.phone_secondary %} &nbsp;·&nbsp; <a href="tel:{{ contact.phone_secondary }}">{{ contact.phone_secondary }}</a>{% endif %}
+    </p>
+    {% endif %}
+    <p class="dfoot__line">
+      <span class="dfoot__ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg></span>
+      {{ contact.full_address }}
+    </p>
+    <p class="dfoot__line">
+      <span class="dfoot__ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg></span>
+      {{ hours|open_days }}, {{ hours|open_time }}
+    </p>
+
+    {% if socials %}
+    <div class="dfoot__social">
+      {% for s in socials %}
+        <a href="{{ s.url }}" target="_blank" rel="noopener" aria-label="{{ s.get_platform_display }}">
+          {% include "partials/social_icon.html" with platform=s.platform %}
+        </a>
+      {% endfor %}
+    </div>
+    {% endif %}
+
+    {% if contact.whatsapp %}
+      <a class="btn b-solid dfoot__cta" href="{% whatsapp contact 'Hello AMISH, could I get a price?' %}" target="_blank" rel="noopener">Message us on WhatsApp</a>
+    {% endif %}
   </div>
 </aside>

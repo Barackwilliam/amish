@@ -519,3 +519,142 @@ main{animation:pageIn .5s var(--ease) both}
 .tcard:hover .tcard__ico{transform:translateY(-2px) rotate(-4deg)}
 .tcard b{color:var(--ink)}
 .tcard span{color:var(--mute)}
+
+/* ======================= Footer ya kisasa ======================= */
+.foot{padding:0 0 26px}
+.foot .wrap{padding-top:0}
+
+/* Ukanda wa wito wa kuchukua hatua */
+.foot__cta{display:grid;grid-template-columns:1.4fr auto;gap:28px;align-items:center;
+  padding:clamp(30px,4vw,44px);margin:clamp(40px,5vw,64px) 0 clamp(38px,5vw,56px);
+  border-radius:16px;position:relative;overflow:hidden;
+  background:linear-gradient(115deg,rgba(0,58,188,.92) 0%,rgba(10,27,74,.94) 100%);
+  box-shadow:0 22px 60px rgba(0,0,0,.34)}
+.foot__cta::after{content:"";position:absolute;right:-90px;top:-90px;width:300px;height:300px;
+  border-radius:50%;background:rgba(255,255,255,.06)}
+.foot__cta h3{color:#fff;font-size:clamp(1.4rem,2.6vw,2rem);margin-bottom:8px;position:relative;z-index:2}
+.foot__cta p{color:#C6D0E6;margin:0;max-width:48ch;font-size:.98rem;position:relative;z-index:2}
+.foot__cta-acts{display:flex;gap:12px;flex-wrap:wrap;position:relative;z-index:2}
+
+/* Safu */
+.foot .grid{grid-template-columns:1.7fr 1fr 1fr 1.35fr;gap:44px;padding-bottom:38px}
+.foot__brand .mk{margin-bottom:6px}
+.foot h5{color:#fff;font-weight:800;font-size:.82rem;letter-spacing:.12em;text-transform:uppercase;
+  margin-bottom:18px;padding-bottom:0}
+.foot h5::after{display:none}
+.foot a{color:#A6AFC4}
+.foot .grid > div > a{padding:7px 0;font-size:.95rem}
+.foot .is-soon{display:flex;align-items:center;gap:8px;padding:7px 0;font-size:.95rem;color:#6E778D}
+.foot .is-soon em{font-style:normal;font-size:.68rem;font-weight:700;letter-spacing:.08em;
+  text-transform:uppercase;color:#7FA0FF;border:1px solid rgba(127,160,255,.4);
+  padding:2px 7px;border-radius:99px}
+
+/* Mawasiliano yenye ikoni */
+.foot__line{display:grid;grid-template-columns:26px 1fr;gap:12px;align-items:start;
+  margin:0 0 16px;font-size:.94rem;line-height:1.6;color:#A6AFC4}
+.foot__ico{display:grid;place-items:center;width:26px;height:26px;border-radius:8px;
+  background:rgba(255,255,255,.08);color:#7FA0FF}
+.foot__ico svg{width:14px;height:14px}
+.foot__line a{display:inline;padding:0}
+
+/* Ikoni za social */
+.foot__social{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
+.foot__social a{display:grid;place-items:center;width:42px;height:42px;padding:0;border-radius:12px;
+  background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.10);color:#C3CBDD;
+  transition:background .3s var(--ease),color .3s,transform .3s var(--ease),border-color .3s}
+.foot__social a:hover{background:var(--blue);border-color:var(--blue);color:#fff;
+  transform:translateY(-3px)}
+.foot__social svg{width:19px;height:19px}
+
+/* Mstari wa chini */
+.base{padding-top:24px;color:#7E879C;border-top:1px solid rgba(255,255,255,.09)}
+
+@media (max-width:1024px){
+  .foot__cta{grid-template-columns:1fr;text-align:left;margin:34px 0 32px;padding:26px 22px}
+  .foot__cta-acts{width:100%}
+  .foot__cta-acts .btn{flex:1;text-align:center;min-width:150px}
+  .foot .grid{grid-template-columns:1fr;gap:32px}
+  .foot__social a{width:44px;height:44px}
+  .base{flex-direction:column;gap:8px;text-align:left}
+}
+
+/* ======================= Drawer ya kisasa ======================= */
+.drawer{width:min(440px,90vw);padding:0;
+  background:linear-gradient(165deg,#0C2159 0%,#0A1B4A 42%,#070F2E 100%);
+  box-shadow:36px 0 90px rgba(0,0,0,.45)}
+.drawer__glow{position:absolute;top:-140px;left:-120px;width:360px;height:360px;border-radius:50%;
+  background:radial-gradient(circle,rgba(0,58,188,.55) 0%,transparent 70%);pointer-events:none}
+.drawer .deco{right:-110px;bottom:-90px;width:330px;opacity:.09}
+
+/* Kichwa: logo na kufunga */
+.drawer__top{display:flex;align-items:center;justify-content:space-between;gap:14px;
+  padding:20px 24px 18px;border-bottom:1px solid rgba(255,255,255,.10);
+  position:relative;z-index:3}
+.drawer__brand{display:flex;align-items:center;gap:12px;color:#fff}
+.drawer__brand img{border-radius:50%;background:#fff;padding:2px}
+.drawer__brand i{width:44px;height:44px;border-radius:50%;background:var(--blue);display:block;flex:none}
+.drawer__brand b{display:block;font-weight:800;font-size:1.14rem;letter-spacing:-.03em;line-height:1.05}
+.drawer__brand s{text-decoration:none;display:block;font-size:.7rem;color:#8FA0C4;margin-top:2px}
+.drawer .x{width:42px;height:42px;border-radius:12px;flex:none;align-self:auto;
+  background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);color:#fff;
+  display:grid;place-items:center;transition:background .25s,transform .3s var(--ease)}
+.drawer .x svg{width:19px;height:19px}
+.drawer .x:hover{background:var(--blue);transform:rotate(90deg)}
+
+/* Links */
+.dnav{margin:0;padding:14px 24px 6px;position:relative;z-index:3}
+.dnav a{display:flex;align-items:center;justify-content:space-between;gap:14px;
+  padding:15px 14px 15px 16px;border-bottom:0;border-radius:12px;
+  font-size:1.5rem;font-weight:800;letter-spacing:-.035em;color:#fff;
+  position:relative;overflow:hidden;
+  opacity:0;transform:translateX(-26px);
+  transition:opacity .5s var(--ease),transform .5s var(--ease),background .28s}
+.dnav a::before{content:"";position:absolute;left:0;top:12px;bottom:12px;width:3px;border-radius:3px;
+  background:var(--blue);transform:scaleY(0);transform-origin:center;transition:transform .3s var(--ease)}
+.dnav a:hover,.dnav a:focus-visible{background:rgba(255,255,255,.06);padding-left:22px;color:#fff}
+.dnav a:hover::before{transform:scaleY(1)}
+.dnav__txt small{display:block;font-size:.76rem;font-weight:500;letter-spacing:0;
+  color:#8FA0C4;margin-top:3px;line-height:1.45}
+.dnav__go{width:9px;height:9px;border-right:2px solid #5C7DF0;border-top:2px solid #5C7DF0;
+  transform:rotate(45deg);flex:none;opacity:.5;transition:transform .3s var(--ease),opacity .3s}
+.dnav a:hover .dnav__go{opacity:1;transform:rotate(45deg) translate(3px,-3px)}
+
+/* Chini: mawasiliano, social, kitufe */
+.dfoot{margin-top:auto;padding:20px 24px 26px;position:relative;z-index:3;
+  border-top:1px solid rgba(255,255,255,.10);opacity:1}
+.dfoot__line{display:grid;grid-template-columns:26px 1fr;gap:11px;align-items:start;
+  margin:0 0 13px;font-size:.9rem;line-height:1.55;color:#A9B4CE}
+.dfoot__line a{color:#fff;font-weight:600}
+.dfoot__ico{display:grid;place-items:center;width:26px;height:26px;border-radius:8px;
+  background:rgba(255,255,255,.08);color:#7FA0FF}
+.dfoot__ico svg{width:14px;height:14px}
+.dfoot__social{display:flex;flex-wrap:wrap;gap:9px;margin:16px 0 18px}
+.dfoot__social a{display:grid;place-items:center;width:40px;height:40px;border-radius:11px;
+  background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.11);color:#C3CBDD;
+  transition:background .28s,color .28s,transform .28s var(--ease)}
+.dfoot__social a:hover{background:var(--blue);color:#fff;transform:translateY(-3px)}
+.dfoot__social svg{width:18px;height:18px}
+.dfoot__cta{display:block;width:100%;text-align:center}
+
+/* Kuingia kwa mfululizo */
+.drawer.open .dnav a{opacity:1;transform:none}
+.drawer.open .dnav a:nth-child(1){transition-delay:.08s}
+.drawer.open .dnav a:nth-child(2){transition-delay:.14s}
+.drawer.open .dnav a:nth-child(3){transition-delay:.20s}
+.drawer.open .dnav a:nth-child(4){transition-delay:.26s}
+.drawer.open .dnav a:nth-child(5){transition-delay:.32s}
+.drawer.open .dnav a:nth-child(6){transition-delay:.38s}
+.drawer.open .dnav a:nth-child(7){transition-delay:.44s}
+.drawer .dfoot{opacity:0;transform:translateY(14px);
+  transition:opacity .5s var(--ease) .38s,transform .5s var(--ease) .38s}
+.drawer.open .dfoot{opacity:1;transform:none}
+.drawer__top{opacity:0;transform:translateY(-10px);
+  transition:opacity .45s var(--ease) .05s,transform .45s var(--ease) .05s}
+.drawer.open .drawer__top{opacity:1;transform:none}
+
+.scrim{backdrop-filter:blur(3px);background:rgba(4,8,20,.66)}
+
+@media (max-width:420px){
+  .dnav a{font-size:1.32rem;padding:13px 12px 13px 14px}
+  .drawer__brand b{font-size:1.05rem}
+}

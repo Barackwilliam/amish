@@ -5,45 +5,89 @@
          alt="" loading="lazy" decoding="async">
     <span class="foot__tint"></span>
   </div>
+
   <svg class="art" viewBox="0 0 400 400" fill="none" aria-hidden="true">
     <path d="M80 380V200l80-80 80 80v180M220 380V150l80-80 80 80v230" stroke="#fff" stroke-width="3"/>
     <path d="M20 300h360M20 330h360" stroke="#fff" stroke-width="3"/>
   </svg>
+
   <div class="wrap">
-    <div class="grid">
+    {% if contact.phone_primary or contact.whatsapp %}
+    <div class="foot__cta">
       <div>
+        <h3>Need a price today?</h3>
+        <p>Tell us what the job needs and we will come back with the current figure and what is in stock.</p>
+      </div>
+      <div class="foot__cta-acts">
+        {% if contact.whatsapp %}<a class="btn b-solid" href="{% whatsapp contact 'Hello AMISH, could I get a price?' %}" target="_blank" rel="noopener">Message on WhatsApp</a>{% endif %}
+        {% if contact.phone_primary %}<a class="btn b-line" href="tel:{{ contact.phone_primary }}">{{ contact.phone_primary }}</a>{% endif %}
+      </div>
+    </div>
+    {% endif %}
+
+    <div class="grid">
+      <div class="foot__brand">
         <a class="mk" href="{% url 'core:home' %}" style="color:#fff">
-          {% if settings_obj.logo_light or settings_obj.logo %}<img src="{% if settings_obj.logo_light %}{{ settings_obj.logo_light.url }}{% else %}{{ settings_obj.logo.url }}{% endif %}" alt="" width="40" height="40" style="border-radius:50%">{% else %}<i></i>{% endif %}
+          {% if settings_obj.logo_light or settings_obj.logo %}
+            <img src="{% if settings_obj.logo_light %}{{ settings_obj.logo_light.url }}{% else %}{{ settings_obj.logo.url }}{% endif %}" alt="" width="46" height="46" style="border-radius:50%">
+          {% else %}<i></i>{% endif %}
           <span><b>{{ settings_obj.company_name|cut:" Company Limited" }}</b><s>{{ settings_obj.slogan }}</s></span>
         </a>
         <p class="intro">{{ settings_obj.short_intro }}</p>
-        {% if contact.whatsapp %}<a class="btn b-solid" href="{% whatsapp contact 'Hello AMISH.' %}" target="_blank" rel="noopener">Message us on WhatsApp</a>{% endif %}
+        {% if socials %}
+        <div class="foot__social">
+          {% for s in socials %}
+            <a href="{{ s.url }}" target="_blank" rel="noopener"
+               aria-label="{{ s.get_platform_display }}{% if s.division %} — {{ s.division.name }}{% endif %}"
+               title="{{ s.get_platform_display }}{% if s.division %} — {{ s.division.name }}{% endif %}">
+              {% include "partials/social_icon.html" with platform=s.platform %}
+            </a>
+          {% endfor %}
+        </div>
+        {% endif %}
       </div>
+
       <div>
         <h5>Divisions</h5>
-        {% for d in nav_divisions %}<a href="{{ d.get_absolute_url }}">{{ d.name }}</a>{% endfor %}
-        {% for d in upcoming_divisions %}<a href="{% url 'divisions:list' %}" style="opacity:.6">{{ d.name }} — coming soon</a>{% endfor %}
+        {% for d in nav_divisions %}<a href="{{ d.get_absolute_url }}">{{ d.name|cut:"AMISH " }}</a>{% endfor %}
+        {% for d in upcoming_divisions %}<span class="is-soon">{{ d.name|cut:"AMISH " }}<em>soon</em></span>{% endfor %}
       </div>
+
       <div>
         <h5>Company</h5>
         <a href="{% url 'core:about' %}">About us</a>
         <a href="{% url 'core:gallery' %}">Gallery</a>
         <a href="{% url 'core:contact' %}">Contact</a>
+        <a href="{% url 'core:contact' %}#faq">FAQs</a>
       </div>
-      <div>
+
+      <div class="foot__find">
         <h5>Find us</h5>
-        <a href="{% url 'core:contact' %}">{{ contact.full_address }}</a>
-        {% if contact.phone_primary %}<a href="tel:{{ contact.phone_primary }}">{{ contact.phone_primary }}</a>{% endif %}
-        {% if contact.phone_secondary %}<a href="tel:{{ contact.phone_secondary }}">{{ contact.phone_secondary }}</a>{% endif %}
-        {% if contact.email %}<a href="mailto:{{ contact.email }}">{{ contact.email }}</a>{% endif %}
-        <a href="{% url 'core:contact' %}">{{ hours|open_days }}, {{ hours|open_time }}</a>
-        {% if socials %}<div style="display:flex;flex-wrap:wrap;gap:10px 16px;margin-top:12px">
-          {% for s in socials %}<a href="{{ s.url }}" target="_blank" rel="noopener" style="padding:0;border-bottom:1px solid rgba(255,255,255,.25)">{{ s.get_platform_display }}</a>{% endfor %}
-        </div>{% endif %}
+        <p class="foot__line">
+          <span class="foot__ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg></span>
+          {{ contact.full_address }}
+        </p>
+        {% if contact.phone_primary %}
+        <p class="foot__line">
+          <span class="foot__ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 3h4l2 5-2.5 1.5a12 12 0 0 0 4.5 4.5L16 11.5l5 2v4a2 2 0 0 1-2.2 2A16 16 0 0 1 4.5 5.2 2 2 0 0 1 6.5 3Z"/></svg></span>
+          <a href="tel:{{ contact.phone_primary }}">{{ contact.phone_primary }}</a>{% if contact.phone_secondary %}<br><a href="tel:{{ contact.phone_secondary }}">{{ contact.phone_secondary }}</a>{% endif %}
+        </p>
+        {% endif %}
+        {% if contact.email %}
+        <p class="foot__line">
+          <span class="foot__ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></span>
+          <a href="mailto:{{ contact.email }}">{{ contact.email }}</a>
+        </p>
+        {% endif %}
+        <p class="foot__line">
+          <span class="foot__ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg></span>
+          {{ hours|open_days }}<br>{{ hours|open_time }}
+        </p>
       </div>
     </div>
+
     <div class="base">
-      <span>&copy; {% now "Y" %} {{ settings_obj.company_name }}</span>
+      <span>&copy; {% now "Y" %} {{ settings_obj.company_name }}. All rights reserved.</span>
       <span>Built by <a class="credit" href="https://jamiitek.com" target="_blank" rel="noopener">JamiiTek Digital Agency</a></span>
     </div>
   </div>
