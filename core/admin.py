@@ -7,6 +7,7 @@ Kila kitu kimepangwa kwa vikundi na kila field ina maelezo.
 
 from django.contrib import admin
 from django.utils.html import format_html
+from unfold.admin import ModelAdmin as UnfoldModelAdmin
 
 from .models import (
     FAQ, BusinessHour, ContactInfo, Enquiry, HeroSlide, Page,
@@ -15,11 +16,11 @@ from .models import (
 
 admin.site.site_header = "AMISH Company Limited"
 admin.site.site_title = "AMISH"
-admin.site.index_title = "Usimamizi wa website"
+admin.site.index_title = "Website management"
 
 
-class SingletonAdmin(admin.ModelAdmin):
-    """Inazuia kuongeza au kufuta. Kuna record moja tu ya kuhariri."""
+class SingletonAdmin(UnfoldModelAdmin):
+    """Blocks add and delete: there is only ever one record to edit."""
 
     def has_add_permission(self, request):
         return not self.model.objects.exists()
@@ -42,7 +43,7 @@ class SingletonAdmin(admin.ModelAdmin):
 class ImagePreviewMixin:
     preview_field = "image"
 
-    @admin.display(description="Picha")
+    @admin.display(description="Photo")
     def preview(self, obj):
         image = getattr(obj, self.preview_field, None)
         if image:
@@ -56,13 +57,13 @@ class ImagePreviewMixin:
 @admin.register(SiteSettings)
 class SiteSettingsAdmin(SingletonAdmin):
     fieldsets = (
-        ("Utambulisho", {"fields": ("company_name", "slogan", "short_intro")}),
-        ("Nembo", {"fields": ("logo", "logo_light", "favicon")}),
-        ("Rangi rasmi", {
+        ("Identity", {"fields": ("company_name", "slogan", "short_intro")}),
+        ("Branding", {"fields": ("logo", "logo_light", "favicon")}),
+        ("Brand colours", {
             "fields": ("color_primary", "color_ink", "color_surface"),
-            "description": "Rangi hizi zinatumika website nzima. Ukibadilisha hapa, site nzima inabadilika.",
+            "description": "These colours are used across the whole website. Change them here and the entire site follows.",
         }),
-        ("Google na kushirikisha", {
+        ("Search and sharing", {
             "fields": ("meta_title", "meta_description", "og_image"),
             "classes": ("collapse",),
         }),
@@ -72,92 +73,92 @@ class SiteSettingsAdmin(SingletonAdmin):
 @admin.register(ContactInfo)
 class ContactInfoAdmin(SingletonAdmin):
     fieldsets = (
-        ("Simu na email", {
+        ("Phone and email", {
             "fields": ("phone_primary", "phone_secondary", "whatsapp", "email", "email_sales"),
         }),
-        ("Ofisi", {"fields": ("street", "ward", "city", "postal_address")}),
-        ("Ramani", {
+        ("Shop address", {"fields": ("street", "ward", "city", "postal_address")}),
+        ("Map location", {
             "fields": ("latitude", "longitude"),
-            "description": "Fungua Google Maps, bonyeza sehemu ya ofisi kwa muda mrefu, nakili namba mbili zinazoonekana.",
+            "description": "Open Google Maps, press and hold on the shop location, then copy the two numbers shown.",
             "classes": ("collapse",),
         }),
     )
 
 
 @admin.register(BusinessHour)
-class BusinessHourAdmin(admin.ModelAdmin):
+class BusinessHourAdmin(UnfoldModelAdmin):
     list_display = ("get_day_display", "opens_at", "closes_at", "is_closed", "note")
     list_editable = ("opens_at", "closes_at", "is_closed", "note")
     list_display_links = None
 
 
 @admin.register(SocialLink)
-class SocialLinkAdmin(admin.ModelAdmin):
+class SocialLinkAdmin(UnfoldModelAdmin):
     list_display = ("platform", "handle", "division", "is_active", "order")
     list_editable = ("is_active", "order")
     list_filter = ("platform", "division", "is_active")
 
 
 @admin.register(HeroSlide)
-class HeroSlideAdmin(ImagePreviewMixin, admin.ModelAdmin):
+class HeroSlideAdmin(ImagePreviewMixin, UnfoldModelAdmin):
     list_display = ("preview", "headline", "is_active", "order")
     list_editable = ("is_active", "order")
     fields = ("headline", "subline", "image", ("cta_label", "cta_url"), "is_active", "order")
 
 
 @admin.register(Reason)
-class ReasonAdmin(admin.ModelAdmin):
+class ReasonAdmin(UnfoldModelAdmin):
     list_display = ("title", "is_active", "order")
     list_editable = ("is_active", "order")
 
 
 @admin.register(SectionSlide)
-class SectionSlideAdmin(ImagePreviewMixin, admin.ModelAdmin):
+class SectionSlideAdmin(ImagePreviewMixin, UnfoldModelAdmin):
     list_display = ("preview", "slot", "caption", "is_active", "order")
     list_editable = ("caption", "is_active", "order")
     list_filter = ("slot",)
 
 
 @admin.register(Stat)
-class StatAdmin(admin.ModelAdmin):
+class StatAdmin(UnfoldModelAdmin):
     list_display = ("value", "label", "is_active", "order")
     list_editable = ("label", "is_active", "order")
 
 
 @admin.register(Testimonial)
-class TestimonialAdmin(ImagePreviewMixin, admin.ModelAdmin):
+class TestimonialAdmin(ImagePreviewMixin, UnfoldModelAdmin):
     preview_field = "photo"
     list_display = ("preview", "author", "role", "is_active", "order")
     list_editable = ("is_active", "order")
 
 
 @admin.register(FAQ)
-class FAQAdmin(admin.ModelAdmin):
+class FAQAdmin(UnfoldModelAdmin):
     list_display = ("question", "is_active", "order")
     list_editable = ("is_active", "order")
 
 
 @admin.register(Page)
-class PageAdmin(admin.ModelAdmin):
+class PageAdmin(UnfoldModelAdmin):
     list_display = ("title", "slug", "is_active")
     prepopulated_fields = {"slug": ("title",)}
     fieldsets = (
         (None, {"fields": ("title", "slug", "body", "is_active")}),
-        ("Google", {"fields": ("meta_title", "meta_description"), "classes": ("collapse",)}),
+        ("Search", {"fields": ("meta_title", "meta_description"), "classes": ("collapse",)}),
     )
 
 
 @admin.register(Enquiry)
-class EnquiryAdmin(admin.ModelAdmin):
+class EnquiryAdmin(UnfoldModelAdmin):
     list_display = ("name", "phone", "subject", "division", "status", "created_at")
     list_filter = ("status", "division", "created_at")
     search_fields = ("name", "phone", "email", "message")
     readonly_fields = ("name", "phone", "email", "subject", "message",
                        "division", "product", "created_at")
     fieldsets = (
-        ("Ujumbe", {"fields": ("name", "phone", "email", "subject", "message",
+        ("Enquiry", {"fields": ("name", "phone", "email", "subject", "message",
                                "division", "product", "created_at")}),
-        ("Ufuatiliaji", {"fields": ("status", "internal_note")}),
+        ("Follow-up", {"fields": ("status", "internal_note")}),
     )
 
     def has_add_permission(self, request):

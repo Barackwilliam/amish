@@ -354,3 +354,109 @@ img,svg,iframe,video{max-width:100%}
   .foot .art{right:-60px;width:340px}
   .marq{max-width:100vw}
 }
+
+/* ==================================================================
+   AMISH — kumaliza: footer yenye picha, mwendo laini, kasi
+   ================================================================== */
+
+/* ---------- Kasi: sehemu za chini hazichorwi hadi zikaribie ---------- */
+.sec,.band,.marq,.figures,.trust{content-visibility:auto;contain-intrinsic-size:auto 700px}
+.foot{content-visibility:auto;contain-intrinsic-size:auto 640px}
+img{background:var(--paper)}
+
+/* ---------- Footer yenye picha ya nyuma ---------- */
+.foot__bg{position:absolute;inset:0;z-index:0;overflow:hidden}
+.foot__bg img{width:100%;height:100%;object-fit:cover;transform:scale(1.04)}
+.foot__tint{position:absolute;inset:0;
+  background:linear-gradient(180deg,rgba(11,13,18,.93) 0%,rgba(11,13,18,.88) 45%,rgba(10,27,74,.95) 100%)}
+.foot .art{z-index:1}
+.foot .wrap{position:relative;z-index:3}
+.foot h5{position:relative;display:inline-block;padding-bottom:8px}
+.foot h5::after{content:"";position:absolute;left:0;bottom:0;width:24px;height:2px;background:var(--blue)}
+.foot a{transition:color .25s,transform .25s;will-change:transform}
+.foot a:hover{transform:translateX(4px)}
+
+/* ---------- Mwendo: easing moja kwa site nzima ---------- */
+:root{--ease:cubic-bezier(.22,.68,.24,1)}
+
+/* Kuingia kwa sections */
+.rev{opacity:0;transform:translateY(30px);
+  transition:opacity .75s var(--ease),transform .75s var(--ease)}
+.rev.in{opacity:1;transform:none}
+.rev.d1{transition-delay:.09s}.rev.d2{transition-delay:.18s}.rev.d3{transition-delay:.27s}
+
+/* Vitufe */
+.btn{position:relative;overflow:hidden;transition:background .3s var(--ease),color .3s var(--ease),
+  transform .25s var(--ease),box-shadow .3s var(--ease)}
+.btn:hover{transform:translateY(-2px)}
+.b-solid:hover{box-shadow:0 10px 26px rgba(0,58,188,.32)}
+.btn:active{transform:translateY(0)}
+
+/* Paneli za matawi */
+.panel{transition:transform .45s var(--ease),box-shadow .45s var(--ease)}
+.panel:hover{transform:translateY(-4px);box-shadow:0 24px 60px rgba(10,27,74,.22)}
+.panel .stage{transition:transform .8s var(--ease)}
+.panel:hover .stage{transform:scale(1.05)}
+.panel .in h3,.panel .in p,.panel .in .go{transition:transform .45s var(--ease)}
+.panel:hover .in h3{transform:translateY(-3px)}
+.go{position:relative;border-bottom:0;padding-bottom:4px}
+.go::after{content:"";position:absolute;left:0;bottom:0;height:2px;width:100%;
+  background:var(--blue);transform-origin:left;transition:transform .4s var(--ease),background .3s}
+.panel:hover .go::after{background:#fff;transform:scaleX(1.08)}
+
+/* Kadi za bidhaa */
+.card{transition:transform .35s var(--ease),border-color .35s,box-shadow .35s var(--ease)}
+.card .ph{transition:transform .6s var(--ease)}
+.card:hover .ph{transform:scale(1.05)}
+.card .body{transition:background .3s}
+
+/* Kadi za sababu */
+.wcard{transition:transform .35s var(--ease),box-shadow .35s var(--ease),border-color .3s}
+.wcard:hover{border-color:var(--blue)}
+.wcard .n{transition:opacity .3s,transform .35s var(--ease)}
+.wcard:hover .n{opacity:.95;transform:translateY(-2px)}
+
+/* Matawi yanayokuja */
+.soon{transition:transform .3s var(--ease),border-color .3s,background .3s}
+.soon:hover{background:var(--paper)}
+
+/* Takwimu */
+.figure b{transition:transform .5s var(--ease)}
+.figures:hover .figure b{transform:translateY(-2px)}
+
+/* Values: mstari unakua */
+.val{position:relative;border-left:0;padding-left:22px}
+.val::before{content:"";position:absolute;left:0;top:2px;bottom:2px;width:3px;background:var(--blue);
+  transform:scaleY(.35);transform-origin:top;transition:transform .6s var(--ease)}
+.val.in::before,.rev.in .val::before{transform:scaleY(1)}
+.vals .val::before{transform:scaleY(1)}
+
+/* Maswali */
+.q button{transition:color .25s}
+.q button:hover{color:var(--blue)}
+.q button i{transition:transform .35s var(--ease),color .25s}
+
+/* Vichujio */
+.filters a{transition:background .25s,border-color .25s,color .25s,transform .25s var(--ease)}
+.filters a:hover{transform:translateY(-2px)}
+
+/* Drawer: laini zaidi */
+.drawer{transition:transform .55s var(--ease)}
+.dnav a{transition:opacity .55s var(--ease),transform .55s var(--ease),color .25s,padding-left .3s}
+
+/* Navbar inaposhuka */
+.bar{transition:background .35s var(--ease),box-shadow .35s var(--ease),padding .35s var(--ease)}
+
+/* Gallery */
+.grid-photos figure img{transition:transform .7s var(--ease)}
+.grid-photos figcaption{transform:translateY(6px);opacity:.9;transition:.4s var(--ease)}
+.grid-photos figure:hover figcaption{transform:none;opacity:1}
+
+/* Ukurasa unapofunguka */
+@keyframes pageIn{from{opacity:0}to{opacity:1}}
+main{animation:pageIn .5s var(--ease) both}
+
+@media (prefers-reduced-motion:reduce){
+  main{animation:none}
+  .panel:hover,.card:hover,.wcard:hover,.btn:hover{transform:none}
+}

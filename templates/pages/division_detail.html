@@ -4,7 +4,7 @@
 {% block description %}{{ division.meta_description|default:division.tagline }}{% endblock %}
 
 {% block content %}
-{% include "partials/phead.html" with heading=division.name sub=division.tagline cover=division.cover slides=slides %}
+{% include "partials/phead.html" with heading=division.name sub=division.tagline cover=division.cover slides=slides fallback=division.slug|add:"-1.jpg" %}
 
 {% if division.description %}
 <section class="sec">

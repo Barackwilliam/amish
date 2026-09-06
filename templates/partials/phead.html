@@ -4,7 +4,7 @@
     {% for s in slides %}
       <img class="sl ken{% if forloop.first %} on{% endif %}" src="{{ s.image.url }}" alt="{{ s.caption|default:heading }}"{% if not forloop.first %} loading="lazy"{% endif %}>
     {% empty %}
-      <img class="sl on" src="{% bg cover "hero-1.jpg" %}" alt="{{ heading }}">
+      <img class="sl on" src="{% bg cover fallback|default:"hero-1.jpg" %}" alt="{{ heading }}">
     {% endfor %}
   </div>
   <div class="tint"></div>

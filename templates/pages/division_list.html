@@ -14,7 +14,7 @@
           {% for s in d.slides.all %}{% if s.is_active %}
             <img class="sl{% if forloop.first %} on{% endif %}" src="{{ s.image.url }}" alt="{{ s.caption|default:d.name }}" loading="lazy">
           {% endif %}{% empty %}
-            <img class="sl on" src="{% bg d.cover "hardware-1.jpg" %}" alt="{{ d.name }} — {{ d.tagline }}" loading="lazy">
+            <img class="sl on" src="{% bg d.cover d.slug|add:"-1.jpg" %}" alt="{{ d.name }} — {{ d.tagline }}" loading="lazy">
           {% endfor %}
         </div>
         <svg class="pat" preserveAspectRatio="none" aria-hidden="true"><rect width="100%" height="100%" fill="url(#{% if forloop.first %}brick{% else %}weave{% endif %})"/></svg>

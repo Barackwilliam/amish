@@ -19,8 +19,8 @@ from divisions.models import Category, Division
 
 INTRO = (
     "AMISH Company Limited is a Kigamboni trading company supplying building "
-    "materials and clothing to households, tradesmen and contractors across "
-    "Dar es Salaam, with further divisions in preparation."
+    "materials, clothing and cosmetics to households, tradesmen and contractors "
+    "across Dar es Salaam, with further divisions in preparation."
 )
 
 ABOUT_INTRO = (
@@ -133,6 +133,25 @@ DIVISIONS = [
         "categories": ["Children's wear", "Cadet uniforms", "Suits", "Buibui"],
     },
     {
+        "name": "AMISH Cosmetics", "slug": "cosmetics",
+        "tagline": "Skin care, hair care, fragrance and everyday beauty essentials.",
+        "description": (
+            "Our cosmetics division carries the products people use every day rather "
+            "than a shelf of novelties: body lotion and petroleum jelly, soap and "
+            "shower gel, hair oil, relaxers and shampoo, roll-on and perfume, and the "
+            "small items that always run out at the wrong moment.\n\n"
+            "We buy from suppliers we can trace, because counterfeit cosmetics are "
+            "common and the harm falls on the customer's skin, not on the shop. If we "
+            "cannot verify where a product came from, we do not put it on the shelf, "
+            "even when the margin looks good.\n\n"
+            "Tell us what you normally use and we will tell you whether we have it and "
+            "what it costs today. If we do not stock it yet and enough people ask, we "
+            "will bring it in — most of what is on our shelves arrived exactly that way."
+        ),
+        "status": "active", "kind": "products", "order": 3,
+        "categories": ["Skin care", "Hair care", "Fragrance", "Soap and bath"],
+    },
+    {
         "name": "AMISH Restaurants", "slug": "restaurants",
         "tagline": "A food service for Kigamboni, currently in preparation.",
         "description": (
@@ -141,7 +160,7 @@ DIVISIONS = [
             "business where a poor start is very hard to recover from. It will "
             "open here when it is ready to run properly."
         ),
-        "status": "coming_soon", "kind": "services", "order": 3,
+        "status": "coming_soon", "kind": "services", "order": 4,
         "launch_note": "In preparation", "categories": [],
     },
     {
@@ -153,7 +172,7 @@ DIVISIONS = [
             "site reliably. Until it launches, we arrange delivery for larger "
             "hardware orders through partners we trust."
         ),
-        "status": "coming_soon", "kind": "services", "order": 4,
+        "status": "coming_soon", "kind": "services", "order": 5,
         "launch_note": "In preparation", "categories": [],
     },
     {
@@ -164,7 +183,7 @@ DIVISIONS = [
             "hardware: the same customer who builds a house then has to furnish "
             "it, and would rather deal with a supplier they already know."
         ),
-        "status": "coming_soon", "kind": "products", "order": 5,
+        "status": "coming_soon", "kind": "products", "order": 6,
         "launch_note": "In preparation", "categories": [],
     },
 ]
@@ -228,9 +247,9 @@ HERO = [
      "people actually come looking for. Come and see, or message us for photos "
      "of what is in stock."),
     ("One company. Five divisions.",
-     "Hardware and Clothing are trading today in Geza, Kigamboni. Restaurants, "
-     "transport and furniture are in preparation and will open here when they "
-     "are ready."),
+     "Hardware, Clothing and Cosmetics are trading today in Geza, Kigamboni. "
+     "Restaurants, transport and furniture are in preparation and will open here "
+     "when they are ready."),
 ]
 
 
@@ -254,7 +273,7 @@ class Command(BaseCommand):
         contact = ContactInfo.load()
         contact.phone_primary = "0717 003 466"
         contact.phone_secondary = "+255 711 686 816"
-        contact.whatsapp = "255717003466"
+        contact.whatsapp = "255711686816"
         contact.email = "info@amish.co.tz"
         contact.street = "Geza, opposite GMK Super Market"
         contact.ward = "Kigamboni"
@@ -352,7 +371,7 @@ class Command(BaseCommand):
         )
 
         for i, (value, label) in enumerate(
-            [("2", "Divisions trading today"),
+            [("3", "Divisions trading today"),
              ("3", "Divisions in preparation"),
              ("6", "Days open each week")], start=1,
         ):

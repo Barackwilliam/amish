@@ -18,52 +18,52 @@ from core.models import Orderable, SEOFields, TimeStamped
 
 class Division(Orderable, SEOFields, TimeStamped):
     class Status(models.TextChoices):
-        ACTIVE = "active", "Inafanya kazi"
-        COMING_SOON = "coming_soon", "Inakuja hivi karibuni"
+        ACTIVE = "active", "Trading"
+        COMING_SOON = "coming_soon", "In preparation"
 
     class Kind(models.TextChoices):
-        PRODUCTS = "products", "Inauza bidhaa"
-        SERVICES = "services", "Inatoa huduma"
+        PRODUCTS = "products", "Sells products"
+        SERVICES = "services", "Provides services"
 
-    name = models.CharField(max_length=90, verbose_name="Jina la tawi")
+    name = models.CharField(max_length=90, verbose_name="Division name")
     slug = models.SlugField(max_length=110, unique=True, blank=True)
     tagline = models.CharField(
         max_length=140, blank=True,
-        verbose_name="Maelezo ya mstari mmoja",
-        help_text="Mfano: Vifaa vya ujenzi vya kuaminika kwa bei ya jumla.",
+        verbose_name="One-line description",
+        help_text="For example: Reliable building materials at wholesale prices.",
     )
-    description = models.TextField(blank=True, verbose_name="Maelezo kamili")
+    description = models.TextField(blank=True, verbose_name="Full description")
 
     status = models.CharField(
         max_length=20, choices=Status.choices, default=Status.ACTIVE,
-        verbose_name="Hali",
-        help_text="Ikiwa 'inakuja', tawi linaonekana lakini bidhaa zake hazionyeshwi.",
+        verbose_name="Status",
+        help_text="If set to 'In preparation', the division is listed but its products are hidden.",
     )
     kind = models.CharField(
         max_length=20, choices=Kind.choices, default=Kind.PRODUCTS,
-        verbose_name="Aina",
+        verbose_name="Type",
     )
     launch_note = models.CharField(
         max_length=90, blank=True,
-        verbose_name="Lini linaanza",
-        help_text="Kinachoonekana kwenye tawi linalokuja. Mfano: Inatarajiwa 2027.",
+        verbose_name="Launch note",
+        help_text="Shown on a division in preparation. For example: Expected 2027.",
     )
 
-    icon = models.ImageField(upload_to="divisions/icons/", blank=True, verbose_name="Ikoni")
+    icon = models.ImageField(upload_to="divisions/icons/", blank=True, verbose_name="Icon")
     cover = models.ImageField(
         upload_to="divisions/", blank=True,
-        verbose_name="Picha kubwa",
-        help_text="Inayoonekana juu ya ukurasa wa tawi. Upana wa angalau 1600px.",
+        verbose_name="Cover image",
+        help_text="Shown at the top of the division page. At least 1600px wide.",
     )
     accent_color = models.CharField(
         max_length=7, blank=True,
-        verbose_name="Rangi ya tawi",
-        help_text="Iache wazi ili itumie rangi kuu ya kampuni.",
+        verbose_name="Division colour",
+        help_text="Leave blank to use the company primary colour.",
     )
 
     class Meta(Orderable.Meta):
-        verbose_name = "Tawi la kampuni"
-        verbose_name_plural = "Matawi ya kampuni"
+        verbose_name = "Division"
+        verbose_name_plural = "Divisions"
 
     def __str__(self):
         return self.name
@@ -92,17 +92,17 @@ class Division(Orderable, SEOFields, TimeStamped):
 class Category(Orderable, TimeStamped):
     division = models.ForeignKey(
         Division, on_delete=models.CASCADE, related_name="categories",
-        verbose_name="Tawi",
+        verbose_name="Division",
     )
-    name = models.CharField(max_length=90, verbose_name="Jina la kundi")
+    name = models.CharField(max_length=90, verbose_name="Category name")
     slug = models.SlugField(max_length=110, blank=True)
-    description = models.CharField(max_length=200, blank=True, verbose_name="Maelezo mafupi")
-    image = models.ImageField(upload_to="categories/", blank=True, verbose_name="Picha")
+    description = models.CharField(max_length=200, blank=True, verbose_name="Short description")
+    image = models.ImageField(upload_to="categories/", blank=True, verbose_name="Image")
 
     class Meta(Orderable.Meta):
         unique_together = [("division", "slug")]
-        verbose_name = "Kundi la bidhaa"
-        verbose_name_plural = "Makundi ya bidhaa"
+        verbose_name = "Category"
+        verbose_name_plural = "Categories"
 
     def __str__(self):
         return f"{self.division.name} — {self.name}"
@@ -115,39 +115,39 @@ class Category(Orderable, TimeStamped):
 
 class Product(Orderable, SEOFields, TimeStamped):
     division = models.ForeignKey(
-        Division, on_delete=models.CASCADE, related_name="products", verbose_name="Tawi",
+        Division, on_delete=models.CASCADE, related_name="products", verbose_name="Division",
     )
     category = models.ForeignKey(
         Category, null=True, blank=True, on_delete=models.SET_NULL,
-        related_name="products", verbose_name="Kundi",
+        related_name="products", verbose_name="Category",
     )
 
-    name = models.CharField(max_length=140, verbose_name="Jina la bidhaa")
+    name = models.CharField(max_length=140, verbose_name="Product name")
     slug = models.SlugField(max_length=160, blank=True)
-    summary = models.CharField(max_length=200, blank=True, verbose_name="Maelezo mafupi")
-    description = models.TextField(blank=True, verbose_name="Maelezo kamili")
-    image = models.ImageField(upload_to="products/", blank=True, verbose_name="Picha kuu")
+    summary = models.CharField(max_length=200, blank=True, verbose_name="Short description")
+    description = models.TextField(blank=True, verbose_name="Full description")
+    image = models.ImageField(upload_to="products/", blank=True, verbose_name="Main photo")
 
     price = models.DecimalField(
         max_digits=12, decimal_places=2, null=True, blank=True,
-        verbose_name="Bei (TSh)",
+        verbose_name="Price (TSh)",
     )
     show_price = models.BooleanField(
         default=False,
-        verbose_name="Onyesha bei kwenye website",
-        help_text="Ikizimwa, mteja anaona kitufe cha kuuliza bei badala ya namba.",
+        verbose_name="Show price on the website",
+        help_text="When off, customers see an 'Ask for price' link instead of a figure.",
     )
     unit = models.CharField(
         max_length=30, blank=True,
-        verbose_name="Kipimo", help_text="Mfano: kwa mfuko, kwa mita, kwa kipande.",
+        verbose_name="Unit", help_text="For example: per bag, per metre, per piece.",
     )
-    in_stock = models.BooleanField(default=True, verbose_name="Ipo dukani")
-    is_featured = models.BooleanField(default=False, verbose_name="Ionekane homepage")
+    in_stock = models.BooleanField(default=True, verbose_name="In stock")
+    is_featured = models.BooleanField(default=False, verbose_name="Feature on the home page")
 
     class Meta(Orderable.Meta):
         unique_together = [("division", "slug")]
-        verbose_name = "Bidhaa"
-        verbose_name_plural = "Bidhaa"
+        verbose_name = "Product"
+        verbose_name_plural = "Products"
 
     def __str__(self):
         return self.name
@@ -172,32 +172,32 @@ class Product(Orderable, SEOFields, TimeStamped):
 
 class ProductImage(Orderable):
     product = models.ForeignKey(
-        Product, on_delete=models.CASCADE, related_name="images", verbose_name="Bidhaa",
+        Product, on_delete=models.CASCADE, related_name="images", verbose_name="Product",
     )
-    image = models.ImageField(upload_to="products/gallery/", verbose_name="Picha")
-    caption = models.CharField(max_length=120, blank=True, verbose_name="Maelezo")
+    image = models.ImageField(upload_to="products/gallery/", verbose_name="Image")
+    caption = models.CharField(max_length=120, blank=True, verbose_name="Caption")
 
     class Meta(Orderable.Meta):
-        verbose_name = "Picha ya ziada"
-        verbose_name_plural = "Picha za ziada"
+        verbose_name = "Extra photo"
+        verbose_name_plural = "Extra photos"
 
     def __str__(self):
-        return f"{self.product.name} — picha {self.order}"
+        return f"{self.product.name} — photo {self.order}"
 
 
 class Service(Orderable, TimeStamped):
     """Kwa matawi yanayotoa huduma badala ya bidhaa, mfano usafiri."""
     division = models.ForeignKey(
-        Division, on_delete=models.CASCADE, related_name="services", verbose_name="Tawi",
+        Division, on_delete=models.CASCADE, related_name="services", verbose_name="Division",
     )
-    name = models.CharField(max_length=120, verbose_name="Jina la huduma")
-    summary = models.CharField(max_length=200, blank=True, verbose_name="Maelezo mafupi")
-    description = models.TextField(blank=True, verbose_name="Maelezo kamili")
-    icon = models.ImageField(upload_to="services/", blank=True, verbose_name="Ikoni")
+    name = models.CharField(max_length=120, verbose_name="Service name")
+    summary = models.CharField(max_length=200, blank=True, verbose_name="Short description")
+    description = models.TextField(blank=True, verbose_name="Full description")
+    icon = models.ImageField(upload_to="services/", blank=True, verbose_name="Icon")
 
     class Meta(Orderable.Meta):
-        verbose_name = "Huduma"
-        verbose_name_plural = "Huduma"
+        verbose_name = "Service"
+        verbose_name_plural = "Services"
 
     def __str__(self):
         return self.name
@@ -206,32 +206,32 @@ class Service(Orderable, TimeStamped):
 class GalleryImage(Orderable):
     division = models.ForeignKey(
         Division, null=True, blank=True, on_delete=models.SET_NULL,
-        related_name="gallery", verbose_name="Tawi",
+        related_name="gallery", verbose_name="Division",
         help_text="Iache wazi kama ni picha ya kampuni kwa ujumla.",
     )
-    image = models.ImageField(upload_to="gallery/", verbose_name="Picha")
-    caption = models.CharField(max_length=140, blank=True, verbose_name="Maelezo")
+    image = models.ImageField(upload_to="gallery/", verbose_name="Image")
+    caption = models.CharField(max_length=140, blank=True, verbose_name="Caption")
 
     class Meta(Orderable.Meta):
-        verbose_name = "Picha ya gallery"
+        verbose_name = "Gallery photo"
         verbose_name_plural = "Gallery"
 
     def __str__(self):
-        return self.caption or f"Picha {self.pk}"
+        return self.caption or f"Photo {self.pk}"
 
 
 class DivisionImage(Orderable):
     """Picha zinazopita kwenye paneli ya tawi kwenye homepage."""
 
     division = models.ForeignKey(
-        Division, on_delete=models.CASCADE, related_name="slides", verbose_name="Tawi",
+        Division, on_delete=models.CASCADE, related_name="slides", verbose_name="Division",
     )
-    image = models.ImageField(upload_to="divisions/slides/", verbose_name="Picha")
-    caption = models.CharField(max_length=120, blank=True, verbose_name="Maelezo")
+    image = models.ImageField(upload_to="divisions/slides/", verbose_name="Image")
+    caption = models.CharField(max_length=120, blank=True, verbose_name="Caption")
 
     class Meta(Orderable.Meta):
-        verbose_name = "Picha ya paneli"
-        verbose_name_plural = "Picha za paneli"
+        verbose_name = "Panel photo"
+        verbose_name_plural = "Panel photos"
 
     def __str__(self):
         return f"{self.division.name} — slide {self.order}"

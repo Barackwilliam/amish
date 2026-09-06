@@ -37,6 +37,10 @@ CSRF_TRUSTED_ORIGINS = [
 ]
 
 INSTALLED_APPS = [
+    # Unfold lazima itangulie django.contrib.admin
+    "unfold",
+    "unfold.contrib.filters",
+    "unfold.contrib.forms",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -197,4 +201,121 @@ LOGGING = {
     "disable_existing_loggers": False,
     "handlers": {"console": {"class": "logging.StreamHandler"}},
     "root": {"handlers": ["console"], "level": os.environ.get("LOG_LEVEL", "INFO")},
+}
+
+
+# ---------------------------------------------------------------------------
+# Unfold — muonekano wa admin
+# ---------------------------------------------------------------------------
+
+from django.templatetags.static import static  # noqa: E402
+from django.urls import reverse_lazy  # noqa: E402
+
+UNFOLD = {
+    "SITE_TITLE": "AMISH Admin",
+    "SITE_HEADER": "AMISH Company Limited",
+    "SITE_SUBHEADER": "Your Success, Our Commitment",
+    "SITE_URL": "/",
+    "SHOW_HISTORY": True,
+    "SHOW_VIEW_ON_SITE": True,
+    "SHOW_LANGUAGES": False,
+    "BORDER_RADIUS": "6px",
+    "COLORS": {
+        # #003ABC ikiwa imepanuliwa kuwa mizani kamili
+        "primary": {
+            "50": "239 244 255",
+            "100": "219 232 255",
+            "200": "190 214 255",
+            "300": "145 187 255",
+            "400": "92 146 255",
+            "500": "51 104 250",
+            "600": "26 68 232",
+            "700": "0 58 188",
+            "800": "10 45 140",
+            "900": "10 27 74",
+            "950": "7 18 50",
+        },
+    },
+    "SIDEBAR": {
+        "show_search": True,
+        "show_all_applications": False,
+        "navigation": [
+            {
+                "title": "Website",
+                "separator": False,
+                "items": [
+                    {"title": "Site settings", "icon": "tune",
+                     "link": reverse_lazy("admin:core_sitesettings_changelist")},
+                    {"title": "Contact details", "icon": "call",
+                     "link": reverse_lazy("admin:core_contactinfo_changelist")},
+                    {"title": "Opening hours", "icon": "schedule",
+                     "link": reverse_lazy("admin:core_businesshour_changelist")},
+                    {"title": "Social media", "icon": "share",
+                     "link": reverse_lazy("admin:core_sociallink_changelist")},
+                ],
+            },
+            {
+                "title": "Home page",
+                "separator": True,
+                "items": [
+                    {"title": "Hero slides", "icon": "wallpaper",
+                     "link": reverse_lazy("admin:core_heroslide_changelist")},
+                    {"title": "Background images", "icon": "image",
+                     "link": reverse_lazy("admin:core_sectionslide_changelist")},
+                    {"title": "Why AMISH", "icon": "check_circle",
+                     "link": reverse_lazy("admin:core_reason_changelist")},
+                    {"title": "Key figures", "icon": "insights",
+                     "link": reverse_lazy("admin:core_stat_changelist")},
+                    {"title": "Testimonials", "icon": "format_quote",
+                     "link": reverse_lazy("admin:core_testimonial_changelist")},
+                ],
+            },
+            {
+                "title": "Divisions and stock",
+                "separator": True,
+                "items": [
+                    {"title": "Divisions", "icon": "storefront",
+                     "link": reverse_lazy("admin:divisions_division_changelist")},
+                    {"title": "Products", "icon": "inventory_2",
+                     "link": reverse_lazy("admin:divisions_product_changelist")},
+                    {"title": "Categories", "icon": "category",
+                     "link": reverse_lazy("admin:divisions_category_changelist")},
+                    {"title": "Services", "icon": "handyman",
+                     "link": reverse_lazy("admin:divisions_service_changelist")},
+                    {"title": "Gallery", "icon": "photo_library",
+                     "link": reverse_lazy("admin:divisions_galleryimage_changelist")},
+                ],
+            },
+            {
+                "title": "Company",
+                "separator": True,
+                "items": [
+                    {"title": "About the company", "icon": "info",
+                     "link": reverse_lazy("admin:company_about_changelist")},
+                    {"title": "Core values", "icon": "verified",
+                     "link": reverse_lazy("admin:company_corevalue_changelist")},
+                    {"title": "Milestones", "icon": "timeline",
+                     "link": reverse_lazy("admin:company_milestone_changelist")},
+                    {"title": "Team and directors", "icon": "groups",
+                     "link": reverse_lazy("admin:company_person_changelist")},
+                    {"title": "Registration", "icon": "workspace_premium",
+                     "link": reverse_lazy("admin:company_credential_changelist")},
+                    {"title": "Clients", "icon": "handshake",
+                     "link": reverse_lazy("admin:company_client_changelist")},
+                ],
+            },
+            {
+                "title": "Enquiries and pages",
+                "separator": True,
+                "items": [
+                    {"title": "Customer enquiries", "icon": "mail",
+                     "link": reverse_lazy("admin:core_enquiry_changelist")},
+                    {"title": "FAQs", "icon": "help",
+                     "link": reverse_lazy("admin:core_faq_changelist")},
+                    {"title": "Pages", "icon": "description",
+                     "link": reverse_lazy("admin:core_page_changelist")},
+                ],
+            },
+        ],
+    },
 }

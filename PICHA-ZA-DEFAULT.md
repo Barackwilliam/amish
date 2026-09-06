@@ -69,7 +69,9 @@ au WebP, upana 1800px kwa hero na band, 900px kwa zingine.
 | hero-2.jpg | Hero slide 2 | Rafu za nguo, mwanga wa asili |
 | hero-3.jpg | Hero slide 3 | Mbele ya duka au mtaa wa biashara |
 | hardware-1..3.jpg | Paneli ya Hardware | Saruji, matofali, ndani ya duka |
-| nguo-1..3.jpg | Paneli ya Nguo | Rafu za nguo, suti, nguo za watoto |
+| cosmetics-1..3.jpg | Paneli ya Cosmetics | Rafu za lotion, shampoo, manukato |
+| footer.jpg | Nyuma ya footer | Sura ya duka au mtaa, ya giza |
+| clothing-1..3.jpg | Paneli ya Nguo | Rafu za nguo, suti, nguo za watoto |
 | band-1..3.jpg | Ukanda wa Vision | Mafundi kazini, mzigo ukipakiwa, duka likiwa na wateja |
 | p-saruji.jpg, p-matofali.jpg, p-nondo.jpg | Kadi za bidhaa | Bidhaa moja moja, background safi |
 | p-watoto.jpg, p-suti.jpg, p-buibui.jpg | Kadi za bidhaa | Nguo moja moja |

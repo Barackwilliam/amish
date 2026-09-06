@@ -5,7 +5,7 @@ from django.db.models.signals import pre_save
 class CoreConfig(AppConfig):
     default_auto_field = "django.db.models.BigAutoField"
     name = "core"
-    verbose_name = "Mipangilio ya jumla"
+    verbose_name = "Website"
 
     def ready(self):
         from django.apps import apps

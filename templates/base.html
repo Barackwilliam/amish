@@ -13,7 +13,7 @@
 {% if settings_obj.favicon %}<link rel="icon" href="{{ settings_obj.favicon.url }}">{% endif %}
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="{% static 'css/site.css' %}">
 <style>:root{--blue:{{ settings_obj.color_primary|default:"#003ABC" }};--ink:{{ settings_obj.color_ink|default:"#0B0D12" }}}</style>
 {% block head_extra %}{% endblock %}

@@ -1,5 +1,10 @@
-{% load amish %}
+{% load static amish %}
 <footer class="foot" id="mawasiliano">
+  <div class="foot__bg">
+    <img src="{% if footer_bg %}{{ footer_bg.image.url }}{% else %}{% static 'img/defaults/footer.jpg' %}{% endif %}"
+         alt="" loading="lazy" decoding="async">
+    <span class="foot__tint"></span>
+  </div>
   <svg class="art" viewBox="0 0 400 400" fill="none" aria-hidden="true">
     <path d="M80 380V200l80-80 80 80v180M220 380V150l80-80 80 80v230" stroke="#fff" stroke-width="3"/>
     <path d="M20 300h360M20 330h360" stroke="#fff" stroke-width="3"/>

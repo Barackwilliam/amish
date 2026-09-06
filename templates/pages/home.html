@@ -1,6 +1,12 @@
 {% extends "base.html" %}
 {% load static amish %}
 
+{% block head_extra %}
+  {% with first=slides|nth:0 %}
+    <link rel="preload" as="image" href="{% bg first.image "hero-1.jpg" %}" fetchpriority="high">
+  {% endwith %}
+{% endblock %}
+
 {% block content %}
 <section class="hero">
   <div class="stage" data-show="7000" style="position:absolute;inset:0;overflow:hidden">
@@ -69,7 +75,7 @@
           {% for s in d.slides.all %}{% if s.is_active %}
             <img class="sl{% if forloop.first %} on{% endif %}" src="{{ s.image.url }}" alt="{{ s.caption|default:d.name }}" loading="lazy">
           {% endif %}{% empty %}
-            <img class="sl on" src="{% bg d.cover "hardware-1.jpg" %}" alt="{{ d.name }} — {{ d.tagline }}" loading="lazy">
+            <img class="sl on" src="{% bg d.cover d.slug|add:"-1.jpg" %}" alt="{{ d.name }} — {{ d.tagline }}" loading="lazy">
           {% endfor %}
         </div>
         <svg class="pat" preserveAspectRatio="none" aria-hidden="true"><rect width="100%" height="100%" fill="url(#{% if forloop.first %}brick{% else %}weave{% endif %})"/></svg>

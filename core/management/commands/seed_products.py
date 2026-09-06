@@ -195,6 +195,63 @@ CLOTHING = [
 ]
 
 
+COSMETICS = [
+    ("Body lotion", "Skin care",
+     "Everyday body lotion, assorted sizes.",
+     "Body lotion for daily use, stocked in the sizes people buy most: the small "
+     "bottle for a handbag and the large one for the household. We buy from "
+     "suppliers we can trace, because counterfeit cosmetics are common and the "
+     "harm falls on the customer's skin, not on the shop.",
+     12000, "each", True, True, True),
+    ("Petroleum jelly", "Skin care",
+     "Petroleum jelly, assorted sizes.",
+     "A household staple that works as hard on dry heels as it does on a child's "
+     "face. Stocked in several tub sizes so you can buy for the week or for the "
+     "month.", 6500, "each", True, False, True),
+    ("Face cream", "Skin care",
+     "Moisturising face cream.",
+     "Moisturiser for daily use, in the brands customers ask for by name. If the "
+     "one you use is not on the shelf, tell us and we will bring it in.",
+     18000, "each", True, False, True),
+    ("Hair oil", "Hair care",
+     "Hair oil and treatment, assorted.",
+     "Hair oils and light treatments for everyday care, chosen for the hair types "
+     "our customers actually have rather than what looks good in an advert.",
+     9000, "each", True, True, True),
+    ("Shampoo and conditioner", "Hair care",
+     "Shampoo and conditioner sets.",
+     "Shampoo and conditioner sold singly or as a set. We keep the sizes that last "
+     "a household a month, not the sample bottles.",
+     15000, "each", True, False, True),
+    ("Hair relaxer", "Hair care",
+     "Relaxer kits, assorted strengths.",
+     "Relaxer kits in the standard strengths, complete with what the process needs "
+     "so you are not sent to a second shop halfway through.",
+     14000, "per kit", True, False, True),
+    ("Perfume", "Fragrance",
+     "Perfume and body spray, assorted.",
+     "Fragrance for men and women, from everyday body spray to something kept for "
+     "occasions. Come and try before you decide — scent is the one thing you "
+     "cannot judge from a label.",
+     35000, "each", True, True, True),
+    ("Roll-on deodorant", "Fragrance",
+     "Roll-on and stick deodorant.",
+     "Deodorant in the brands and sizes that move fastest, kept in stock rather "
+     "than ordered when someone asks.",
+     7000, "each", True, False, True),
+    ("Bathing soap", "Soap and bath",
+     "Bathing soap, singles and packs.",
+     "Bathing soap sold as singles or in packs, which works out cheaper for a "
+     "household. We carry the medicated and the everyday varieties.",
+     3500, "each", True, False, True),
+    ("Shower gel", "Soap and bath",
+     "Shower gel, assorted sizes.",
+     "Shower gel in the sizes households actually use, stocked alongside the soap "
+     "so you can compare what suits your skin and your budget.",
+     13000, "each", True, False, True),
+]
+
+
 class Command(BaseCommand):
     help = "Loads sample products for Hardware and Clothing"
 
@@ -207,7 +264,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         from divisions.models import Product
 
-        pairs = [("hardware", HARDWARE), ("clothing", CLOTHING)]
+        pairs = [("hardware", HARDWARE), ("clothing", CLOTHING), ("cosmetics", COSMETICS)]
         made = 0
 
         for slug, rows in pairs:

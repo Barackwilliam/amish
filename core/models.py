@@ -25,12 +25,12 @@ class Orderable(models.Model):
     """Mpangilio wa kuonekana kwenye site. Namba ndogo inatangulia."""
     order = models.PositiveIntegerField(
         default=0,
-        verbose_name="Mpangilio",
-        help_text="Namba ndogo inaonekana kwanza.",
+        verbose_name="Order",
+        help_text="Lower numbers appear first.",
     )
     is_active = models.BooleanField(
         default=True,
-        verbose_name="Inaonekana kwenye website",
+        verbose_name="Visible on the website",
     )
 
     class Meta:
@@ -61,18 +61,18 @@ class SEOFields(models.Model):
     """Huingizwa kwenye kila page inayohitaji SEO yake."""
     meta_title = models.CharField(
         max_length=70, blank=True,
-        verbose_name="Kichwa cha SEO",
-        help_text="Kinachoonekana Google. Ukikiacha wazi, jina la kawaida litatumika.",
+        verbose_name="SEO title",
+        help_text="Shown in Google results. Leave blank to use the normal title.",
     )
     meta_description = models.CharField(
         max_length=160, blank=True,
-        verbose_name="Maelezo ya SEO",
-        help_text="Sentensi 1-2 zinazoonekana chini ya kichwa kwenye Google.",
+        verbose_name="SEO description",
+        help_text="One or two sentences shown under the title in Google.",
     )
     og_image = models.ImageField(
         upload_to="seo/", blank=True,
-        verbose_name="Picha ya kushare",
-        help_text="Inayoonekana link ikishirikishwa WhatsApp au Facebook. 1200x630px.",
+        verbose_name="Share image",
+        help_text="Shown when the link is shared on WhatsApp or Facebook. 1200x630px.",
     )
 
     class Meta:
@@ -86,7 +86,7 @@ class SEOFields(models.Model):
 class SiteSettings(Singleton, SEOFields, TimeStamped):
     company_name = models.CharField(
         max_length=120, default="AMISH Company Limited",
-        verbose_name="Jina la kampuni",
+        verbose_name="Company name",
     )
     slogan = models.CharField(
         max_length=160, default="Your Success, Our Commitment",
@@ -94,41 +94,41 @@ class SiteSettings(Singleton, SEOFields, TimeStamped):
     )
     short_intro = models.TextField(
         blank=True,
-        verbose_name="Utangulizi mfupi",
-        help_text="Sentensi 2-3 zinazoelezea kampuni. Zinatumika footer na sehemu za utangulizi.",
+        verbose_name="Short introduction",
+        help_text="Two or three sentences describing the company. Used in the footer and intro sections.",
     )
 
     logo = models.ImageField(
         upload_to="brand/", blank=True,
-        verbose_name="Logo (background nyeupe)",
+        verbose_name="Logo (for light backgrounds)",
     )
     logo_light = models.ImageField(
         upload_to="brand/", blank=True,
-        verbose_name="Logo ya background nyeusi",
+        verbose_name="Logo (for dark backgrounds)",
     )
     favicon = models.ImageField(
         upload_to="brand/", blank=True,
         verbose_name="Favicon",
-        help_text="Alama ndogo ya browser tab. 512x512px.",
+        help_text="Small icon shown in the browser tab. 512x512px.",
     )
 
     # Rangi rasmi za kampuni
     color_primary = models.CharField(
         max_length=7, default="#142B6F",
-        verbose_name="Rangi kuu (dark blue)",
+        verbose_name="Primary colour",
     )
     color_ink = models.CharField(
         max_length=7, default="#000000",
-        verbose_name="Rangi ya maandishi (black)",
+        verbose_name="Text colour",
     )
     color_surface = models.CharField(
         max_length=7, default="#FFFFFF",
-        verbose_name="Rangi ya background (white)",
+        verbose_name="Background colour",
     )
 
     class Meta:
-        verbose_name = "Mipangilio ya website"
-        verbose_name_plural = "Mipangilio ya website"
+        verbose_name = "Site settings"
+        verbose_name_plural = "Site settings"
 
     def __str__(self):
         return self.company_name
@@ -137,25 +137,25 @@ class SiteSettings(Singleton, SEOFields, TimeStamped):
         for field in ("color_primary", "color_ink", "color_surface"):
             value = getattr(self, field, "")
             if value and not (value.startswith("#") and len(value) == 7):
-                raise ValidationError({field: "Tumia muundo wa hex, mfano #142B6F"})
+                raise ValidationError({field: "Use hex format, for example #003ABC"})
 
 
 class ContactInfo(Singleton, TimeStamped):
     """Mawasiliano. Yanatumika header, footer, contact page na schema ya Google."""
-    phone_primary = models.CharField(max_length=30, blank=True, verbose_name="Simu ya kwanza")
-    phone_secondary = models.CharField(max_length=30, blank=True, verbose_name="Simu ya pili")
+    phone_primary = models.CharField(max_length=30, blank=True, verbose_name="Primary phone")
+    phone_secondary = models.CharField(max_length=30, blank=True, verbose_name="Second phone")
     whatsapp = models.CharField(
         max_length=30, blank=True,
-        verbose_name="Namba ya WhatsApp",
-        help_text="Muundo wa kimataifa bila alama, mfano 255628601130",
+        verbose_name="WhatsApp number",
+        help_text="International format with no symbols, for example 255711686816",
     )
-    email = models.EmailField(blank=True, verbose_name="Email kuu")
-    email_sales = models.EmailField(blank=True, verbose_name="Email ya mauzo")
+    email = models.EmailField(blank=True, verbose_name="Main email")
+    email_sales = models.EmailField(blank=True, verbose_name="Sales email")
 
-    street = models.CharField(max_length=160, blank=True, verbose_name="Mtaa / jengo")
-    ward = models.CharField(max_length=80, blank=True, default="Kigamboni", verbose_name="Kata")
-    city = models.CharField(max_length=80, blank=True, default="Dar es Salaam", verbose_name="Jiji")
-    postal_address = models.CharField(max_length=80, blank=True, verbose_name="S.L.P")
+    street = models.CharField(max_length=160, blank=True, verbose_name="Street or building")
+    ward = models.CharField(max_length=80, blank=True, default="Kigamboni", verbose_name="Ward")
+    city = models.CharField(max_length=80, blank=True, default="Dar es Salaam", verbose_name="City")
+    postal_address = models.CharField(max_length=80, blank=True, verbose_name="P.O. Box")
 
     latitude = models.DecimalField(
         max_digits=9, decimal_places=6, null=True, blank=True, verbose_name="Latitude",
@@ -165,11 +165,11 @@ class ContactInfo(Singleton, TimeStamped):
     )
 
     class Meta:
-        verbose_name = "Mawasiliano"
-        verbose_name_plural = "Mawasiliano"
+        verbose_name = "Contact details"
+        verbose_name_plural = "Contact details"
 
     def __str__(self):
-        return "Mawasiliano ya kampuni"
+        return "Company contact details"
 
     @property
     def full_address(self):
@@ -183,32 +183,32 @@ class ContactInfo(Singleton, TimeStamped):
 
 class BusinessHour(Orderable):
     class Day(models.IntegerChoices):
-        MONDAY = 1, "Jumatatu"
-        TUESDAY = 2, "Jumanne"
-        WEDNESDAY = 3, "Jumatano"
-        THURSDAY = 4, "Alhamisi"
-        FRIDAY = 5, "Ijumaa"
-        SATURDAY = 6, "Jumamosi"
-        SUNDAY = 7, "Jumapili"
+        MONDAY = 1, "Monday"
+        TUESDAY = 2, "Tuesday"
+        WEDNESDAY = 3, "Wednesday"
+        THURSDAY = 4, "Thursday"
+        FRIDAY = 5, "Friday"
+        SATURDAY = 6, "Saturday"
+        SUNDAY = 7, "Sunday"
 
-    day = models.IntegerField(choices=Day.choices, unique=True, verbose_name="Siku")
-    opens_at = models.TimeField(null=True, blank=True, verbose_name="Kufungua")
-    closes_at = models.TimeField(null=True, blank=True, verbose_name="Kufunga")
-    is_closed = models.BooleanField(default=False, verbose_name="Imefungwa siku hii")
+    day = models.IntegerField(choices=Day.choices, unique=True, verbose_name="Day")
+    opens_at = models.TimeField(null=True, blank=True, verbose_name="Opens at")
+    closes_at = models.TimeField(null=True, blank=True, verbose_name="Closes at")
+    is_closed = models.BooleanField(default=False, verbose_name="Closed on this day")
     note = models.CharField(
         max_length=80, blank=True,
-        verbose_name="Maelezo",
-        help_text="Mfano: Nusu siku, au Kwa miadi tu.",
+        verbose_name="Note",
+        help_text="For example: Half day, or By appointment only.",
     )
 
     class Meta:
         ordering = ["day"]
-        verbose_name = "Saa za kazi"
-        verbose_name_plural = "Saa za kazi"
+        verbose_name = "Opening hours"
+        verbose_name_plural = "Opening hours"
 
     def __str__(self):
         if self.is_closed:
-            return f"{self.get_day_display()}: Imefungwa"
+            return f"{self.get_day_display()}: Closed"
         return f"{self.get_day_display()}: {self.opens_at:%H:%M} - {self.closes_at:%H:%M}"
 
 
@@ -225,20 +225,20 @@ class SocialLink(Orderable):
     platform = models.CharField(max_length=30, choices=Platform.choices, verbose_name="Platform")
     handle = models.CharField(
         max_length=80, blank=True,
-        verbose_name="Jina la page",
-        help_text="Mfano: AMISH Hardware",
+        verbose_name="Page name",
+        help_text="For example: AMISH Hardware",
     )
     url = models.URLField(verbose_name="Link")
     division = models.ForeignKey(
         "divisions.Division", null=True, blank=True,
         on_delete=models.SET_NULL, related_name="social_links",
-        verbose_name="Ni ya idara gani",
-        help_text="Iache wazi kama ni page ya kampuni nzima.",
+        verbose_name="Which division",
+        help_text="Leave blank if this is a company-wide page.",
     )
 
     class Meta(Orderable.Meta):
-        verbose_name = "Link ya social media"
-        verbose_name_plural = "Links za social media"
+        verbose_name = "Social media link"
+        verbose_name_plural = "Social media links"
 
     def __str__(self):
         return f"{self.get_platform_display()} — {self.handle or self.url}"
@@ -249,59 +249,59 @@ class SocialLink(Orderable):
 # ---------------------------------------------------------------------------
 
 class HeroSlide(Orderable):
-    """Sehemu ya juu kabisa ya homepage."""
-    headline = models.CharField(max_length=90, verbose_name="Kichwa kikubwa")
-    subline = models.CharField(max_length=180, blank=True, verbose_name="Maelezo ya chini")
+    """The large slides at the very top of the home page."""
+    headline = models.CharField(max_length=90, verbose_name="Headline")
+    subline = models.CharField(max_length=180, blank=True, verbose_name="Supporting text")
     image = models.ImageField(
         upload_to="hero/",
-        verbose_name="Picha",
-        help_text="Upana wa angalau 2000px, ubora mzuri.",
+        verbose_name="Image",
+        help_text="At least 2000px wide, good quality.",
     )
-    cta_label = models.CharField(max_length=40, blank=True, verbose_name="Maandishi ya kitufe")
-    cta_url = models.CharField(max_length=200, blank=True, verbose_name="Link ya kitufe")
+    cta_label = models.CharField(max_length=40, blank=True, verbose_name="Button label")
+    cta_url = models.CharField(max_length=200, blank=True, verbose_name="Button link")
 
     class Meta(Orderable.Meta):
-        verbose_name = "Slide ya homepage"
-        verbose_name_plural = "Slides za homepage"
+        verbose_name = "Home page slide"
+        verbose_name_plural = "Home page slides"
 
     def __str__(self):
         return self.headline
 
 
 class Stat(Orderable):
-    """Takwimu za kuonyesha uzoefu wa kampuni."""
-    value = models.CharField(max_length=20, verbose_name="Namba", help_text="Mfano: 12, 500+, 98%")
-    label = models.CharField(max_length=60, verbose_name="Maelezo", help_text="Mfano: Miaka ya uzoefu")
+    """Key figures shown on the home page."""
+    value = models.CharField(max_length=20, verbose_name="Figure", help_text="For example: 12, 500+, 98%")
+    label = models.CharField(max_length=60, verbose_name="Label", help_text="For example: Years of experience")
 
     class Meta(Orderable.Meta):
-        verbose_name = "Takwimu"
-        verbose_name_plural = "Takwimu"
+        verbose_name = "Key figure"
+        verbose_name_plural = "Key figures"
 
     def __str__(self):
         return f"{self.value} {self.label}"
 
 
 class Testimonial(Orderable):
-    author = models.CharField(max_length=90, verbose_name="Jina la mteja")
-    role = models.CharField(max_length=90, blank=True, verbose_name="Cheo au kampuni")
-    quote = models.TextField(verbose_name="Alichosema")
-    photo = models.ImageField(upload_to="testimonials/", blank=True, verbose_name="Picha")
+    author = models.CharField(max_length=90, verbose_name="Customer name")
+    role = models.CharField(max_length=90, blank=True, verbose_name="Role or company")
+    quote = models.TextField(verbose_name="What they said")
+    photo = models.ImageField(upload_to="testimonials/", blank=True, verbose_name="Photo")
 
     class Meta(Orderable.Meta):
-        verbose_name = "Ushuhuda wa mteja"
-        verbose_name_plural = "Ushuhuda wa wateja"
+        verbose_name = "Testimonial"
+        verbose_name_plural = "Testimonials"
 
     def __str__(self):
         return self.author
 
 
 class FAQ(Orderable):
-    question = models.CharField(max_length=200, verbose_name="Swali")
-    answer = models.TextField(verbose_name="Jibu")
+    question = models.CharField(max_length=200, verbose_name="Question")
+    answer = models.TextField(verbose_name="Answer")
 
     class Meta(Orderable.Meta):
-        verbose_name = "Swali la mara kwa mara"
-        verbose_name_plural = "Maswali ya mara kwa mara"
+        verbose_name = "FAQ"
+        verbose_name_plural = "FAQs"
 
     def __str__(self):
         return self.question
@@ -312,15 +312,15 @@ class FAQ(Orderable):
 # ---------------------------------------------------------------------------
 
 class Page(SEOFields, TimeStamped):
-    title = models.CharField(max_length=120, verbose_name="Kichwa")
+    title = models.CharField(max_length=120, verbose_name="Title")
     slug = models.SlugField(max_length=140, unique=True, blank=True)
-    body = models.TextField(verbose_name="Maandishi")
-    is_active = models.BooleanField(default=True, verbose_name="Inaonekana")
+    body = models.TextField(verbose_name="Body text")
+    is_active = models.BooleanField(default=True, verbose_name="Visible")
 
     class Meta:
         ordering = ["title"]
-        verbose_name = "Ukurasa"
-        verbose_name_plural = "Kurasa"
+        verbose_name = "Page"
+        verbose_name_plural = "Pages"
 
     def __str__(self):
         return self.title
@@ -337,36 +337,36 @@ class Page(SEOFields, TimeStamped):
 
 class Enquiry(TimeStamped):
     class Status(models.TextChoices):
-        NEW = "new", "Mpya"
-        IN_PROGRESS = "in_progress", "Inashughulikiwa"
-        CLOSED = "closed", "Imekamilika"
+        NEW = "new", "New"
+        IN_PROGRESS = "in_progress", "In progress"
+        CLOSED = "closed", "Closed"
 
-    name = models.CharField(max_length=90, verbose_name="Jina")
-    phone = models.CharField(max_length=30, blank=True, verbose_name="Simu")
+    name = models.CharField(max_length=90, verbose_name="Name")
+    phone = models.CharField(max_length=30, blank=True, verbose_name="Phone")
     email = models.EmailField(blank=True, verbose_name="Email")
-    subject = models.CharField(max_length=140, blank=True, verbose_name="Mada")
-    message = models.TextField(verbose_name="Ujumbe")
+    subject = models.CharField(max_length=140, blank=True, verbose_name="Subject")
+    message = models.TextField(verbose_name="Message")
 
     division = models.ForeignKey(
         "divisions.Division", null=True, blank=True,
         on_delete=models.SET_NULL, related_name="enquiries",
-        verbose_name="Idara husika",
+        verbose_name="Division",
     )
     product = models.ForeignKey(
         "divisions.Product", null=True, blank=True,
         on_delete=models.SET_NULL, related_name="enquiries",
-        verbose_name="Bidhaa husika",
+        verbose_name="Product",
     )
 
     status = models.CharField(
-        max_length=20, choices=Status.choices, default=Status.NEW, verbose_name="Hali",
+        max_length=20, choices=Status.choices, default=Status.NEW, verbose_name="Status",
     )
-    internal_note = models.TextField(blank=True, verbose_name="Maelezo ya ndani")
+    internal_note = models.TextField(blank=True, verbose_name="Internal note")
 
     class Meta:
         ordering = ["-created_at"]
-        verbose_name = "Ujumbe wa mteja"
-        verbose_name_plural = "Ujumbe wa wateja"
+        verbose_name = "Customer enquiry"
+        verbose_name_plural = "Customer enquiries"
 
     def __str__(self):
         return f"{self.name} — {self.created_at:%d/%m/%Y}"
@@ -376,17 +376,18 @@ class SectionSlide(Orderable):
     """Picha za nyuma zinazobadilika kwenye sehemu maalum za ukurasa."""
 
     class Slot(models.TextChoices):
-        BAND = "band", "Ukanda wa Vision na Mission"
+        BAND = "band", "Vision and Mission band"
+        FOOTER = "footer", "Footer background"
 
     slot = models.CharField(
-        max_length=20, choices=Slot.choices, default=Slot.BAND, verbose_name="Sehemu",
+        max_length=20, choices=Slot.choices, default=Slot.BAND, verbose_name="Section",
     )
-    image = models.ImageField(upload_to="sections/", verbose_name="Picha")
-    caption = models.CharField(max_length=120, blank=True, verbose_name="Maelezo ya ndani")
+    image = models.ImageField(upload_to="sections/", verbose_name="Photo")
+    caption = models.CharField(max_length=120, blank=True, verbose_name="Internal note")
 
     class Meta(Orderable.Meta):
-        verbose_name = "Picha ya nyuma"
-        verbose_name_plural = "Picha za nyuma"
+        verbose_name = "Background image"
+        verbose_name_plural = "Background images"
 
     def __str__(self):
         return f"{self.get_slot_display()} — {self.order}"
@@ -395,12 +396,12 @@ class SectionSlide(Orderable):
 class Reason(Orderable):
     """Sababu za kununua AMISH — sehemu ya "Kwa nini AMISH" homepage."""
 
-    title = models.CharField(max_length=70, verbose_name="Kichwa")
-    description = models.TextField(verbose_name="Maelezo")
+    title = models.CharField(max_length=70, verbose_name="Title")
+    description = models.TextField(verbose_name="Description")
 
     class Meta(Orderable.Meta):
-        verbose_name = "Sababu ya kununua hapa"
-        verbose_name_plural = "Kwa nini AMISH"
+        verbose_name = "Reason to buy here"
+        verbose_name_plural = "Why AMISH"
 
     def __str__(self):
         return self.title

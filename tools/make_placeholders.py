@@ -153,6 +153,30 @@ def shelf_boxes(d, size, fill, edge, alpha, rows=3, cols=5):
                         outline=edge + (alpha + 50,), width=3)
 
 
+def bottles(d, size, fill, edge, alpha, count=5):
+    """Chupa za cosmetics — lotion, shampoo, perfume."""
+    w, h = size
+    base = h * 0.79
+    gap = w / (count + 1.6)
+    for i in range(count):
+        cx = w * 0.5 - (count * gap) / 2 + i * gap + gap * 0.8
+        bw = gap * (0.52 if i % 2 else 0.66)
+        bh = h * (0.30 + 0.10 * (i % 3))
+        top = base - bh
+        d.rounded_rectangle([cx - bw / 2, top, cx + bw / 2, base],
+                            radius=bw * 0.22, fill=fill + (alpha,),
+                            outline=edge + (alpha + 70,), width=3)
+        # shingo na kifuniko
+        nw = bw * 0.32
+        d.rectangle([cx - nw / 2, top - h * 0.045, cx + nw / 2, top],
+                    fill=fill + (alpha,), outline=edge + (alpha + 60,), width=3)
+        d.rounded_rectangle([cx - nw * 0.72, top - h * 0.082, cx + nw * 0.72, top - h * 0.04],
+                            radius=nw * 0.2, fill=edge + (alpha + 30,))
+        # lebo
+        d.rectangle([cx - bw * 0.36, top + bh * 0.30, cx + bw * 0.36, top + bh * 0.58],
+                    outline=edge + (alpha + 50,), width=3)
+
+
 def shopfront(d, size, fill, edge, alpha):
     w, h = size
     base = h * 0.79
@@ -195,6 +219,11 @@ def draw(name, size, palette, scene, **kw):
         shelf_boxes(d, size, fill, edge, alpha)
     elif scene == "front":
         shopfront(d, size, fill, edge, alpha)
+    elif scene == "bottles":
+        bottles(d, size, fill, edge, alpha)
+    elif scene == "one-bottle":
+        w, h = size
+        bottles(d, size, fill, edge, alpha + 14, count=1)
     elif scene == "one-bag":
         w, h = size
         cement_bag(d, w * .26, h * .32, w * .48, h * .34, fill, edge, alpha + 14)
@@ -236,9 +265,14 @@ def main():
     draw("hardware-2.jpg", panel, "dark", "bricks")
     draw("hardware-3.jpg", panel, "dark", "rebar")
 
-    draw("nguo-1.jpg", panel, "dark", "rail")
-    draw("nguo-2.jpg", panel, "dark", "rail", styles=("suit", "suit", "shirt"))
-    draw("nguo-3.jpg", panel, "dark", "shelf")
+    draw("clothing-1.jpg", panel, "dark", "rail")
+    draw("clothing-2.jpg", panel, "dark", "rail", styles=("suit", "suit", "shirt"))
+    draw("clothing-3.jpg", panel, "dark", "shelf")
+
+    for i, sc in enumerate(("bottles", "shelf", "bottles"), start=1):
+        draw(f"cosmetics-{i}.jpg", panel, "dark", sc, shift=(i - 2) * 60)
+
+    draw("footer.jpg", (1800, 700), "dark", "front")
 
     draw("band-1.jpg", band, "dark", "bags", cols=7, rows=4)
     draw("band-2.jpg", band, "dark", "front")
@@ -251,12 +285,15 @@ def main():
     draw("p-suti.jpg", card, "light", "one-garment", style="suit")
     draw("p-buibui.jpg", card, "light", "one-garment", style="abaya")
 
+    for name in ("p-lotion", "p-hair", "p-perfume", "p-soap"):
+        draw(f"{name}.jpg", card, "light", "one-bottle")
+
     plan = [("bags", "dark"), ("rail", "light"), ("bricks", "dark"), ("shelf", "light"),
             ("front", "dark"), ("rebar", "light"), ("bags", "light"), ("rail", "dark")]
     for i, (scene, pal) in enumerate(plan, start=1):
         draw(f"g-{i}.jpg", strip, pal, scene)
 
-    print("Michoro 24 imetengenezwa kwenye static/img/defaults/")
+    print("Michoro zimetengenezwa kwenye static/img/defaults/")
 
 
 if __name__ == "__main__":

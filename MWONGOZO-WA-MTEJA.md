@@ -1,4 +1,7 @@
-# Mwongozo wa kutumia admin — AMISH Company Limited
+# Admin guide — AMISH Company Limited
+
+> Note: the admin is now in English. This guide is kept in Kiswahili for
+> convenience; the menu names it mentions appear in English on screen.
 
 Ingia: **amish.co.tz/admin** kwa jina na neno la siri ulilopewa.
 

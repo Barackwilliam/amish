@@ -11,7 +11,7 @@ def site(request):
         from company.models import About
         from divisions.models import Division
 
-        from .models import BusinessHour, ContactInfo, SiteSettings, SocialLink
+        from .models import BusinessHour, ContactInfo, SectionSlide, SiteSettings, SocialLink
 
         divisions = list(
             Division.objects.filter(is_active=True).order_by("order", "id")
@@ -24,6 +24,9 @@ def site(request):
             "socials": list(
                 SocialLink.objects.filter(is_active=True).select_related("division")
             ),
+            "footer_bg": SectionSlide.objects.filter(
+                is_active=True, slot=SectionSlide.Slot.FOOTER
+            ).first(),
             "nav_divisions": [d for d in divisions if d.is_live],
             "upcoming_divisions": [d for d in divisions if not d.is_live],
         }
