@@ -1,8 +1,16 @@
 {% load static amish %}
 <footer class="foot" id="mawasiliano">
   <div class="foot__bg">
-    <img src="{% if footer_bg %}{{ footer_bg.image.url }}{% else %}{% static 'img/defaults/footer.jpg' %}{% endif %}"
-         alt="" loading="lazy" decoding="async">
+    <div class="stage" data-show="8000">
+      {% for s in footer_slides %}
+        <img class="sl ken{% if forloop.first %} on{% endif %}" src="{{ s.image.url }}"
+             alt="" loading="lazy" decoding="async">
+      {% empty %}
+        <img class="sl ken on" src="{% static 'img/defaults/footer-1.jpg' %}" alt="" loading="lazy" decoding="async">
+        <img class="sl ken" src="{% static 'img/defaults/footer-2.jpg' %}" alt="" loading="lazy" decoding="async">
+        <img class="sl ken" src="{% static 'img/defaults/footer-3.jpg' %}" alt="" loading="lazy" decoding="async">
+      {% endfor %}
+    </div>
     <span class="foot__tint"></span>
   </div>
 

@@ -177,6 +177,51 @@ def bottles(d, size, fill, edge, alpha, count=5):
                     outline=edge + (alpha + 50,), width=3)
 
 
+def bus(d, size, fill, edge, alpha):
+    """Basi la mkoa."""
+    w, h = size
+    base = h * 0.74
+    bw, bh = w * 0.66, h * 0.34
+    x = (w - bw) / 2
+    y = base - bh
+    d.rounded_rectangle([x, y, x + bw, base], radius=bh * 0.16,
+                        fill=fill + (alpha,), outline=edge + (alpha + 70,), width=4)
+    # madirisha
+    for i in range(5):
+        ww = bw * 0.13
+        wx = x + bw * 0.08 + i * (bw * 0.165)
+        d.rounded_rectangle([wx, y + bh * 0.18, wx + ww, y + bh * 0.48],
+                            radius=ww * 0.14, outline=edge + (alpha + 60,), width=3)
+    # mlango
+    d.rectangle([x + bw * 0.86, y + bh * 0.18, x + bw * 0.95, base - bh * 0.08],
+                outline=edge + (alpha + 60,), width=3)
+    # magurudumu
+    for cx in (x + bw * 0.22, x + bw * 0.78):
+        r = bh * 0.17
+        d.ellipse([cx - r, base - r * 0.55, cx + r, base + r * 1.45],
+                  fill=edge + (alpha + 30,), outline=edge + (alpha + 80,), width=3)
+
+
+def house(d, size, fill, edge, alpha, count=3):
+    """Nyumba — kwa real estate."""
+    w, h = size
+    base = h * 0.79
+    for i, f in enumerate((0.78, 1.0, 0.62)[:count]):
+        bw = w * 0.20 * f + w * 0.06
+        bh = h * 0.30 * f
+        cx = w * (0.26 + i * 0.24)
+        x0, y0 = cx - bw / 2, base - bh
+        d.rectangle([x0, y0, x0 + bw, base], fill=fill + (alpha,),
+                    outline=edge + (alpha + 70,), width=4)
+        d.polygon([(x0 - bw * 0.12, y0), (cx, y0 - bh * 0.42), (x0 + bw * 1.12, y0)],
+                  fill=fill + (alpha + 12,), outline=edge + (alpha + 70,))
+        # mlango na dirisha
+        d.rectangle([cx - bw * 0.11, base - bh * 0.42, cx + bw * 0.11, base],
+                    outline=edge + (alpha + 60,), width=3)
+        d.rectangle([x0 + bw * 0.12, y0 + bh * 0.20, x0 + bw * 0.32, y0 + bh * 0.42],
+                    outline=edge + (alpha + 50,), width=3)
+
+
 def shopfront(d, size, fill, edge, alpha):
     w, h = size
     base = h * 0.79
@@ -219,6 +264,12 @@ def draw(name, size, palette, scene, **kw):
         shelf_boxes(d, size, fill, edge, alpha)
     elif scene == "front":
         shopfront(d, size, fill, edge, alpha)
+    elif scene == "bus":
+        bus(d, size, fill, edge, alpha)
+    elif scene == "house":
+        house(d, size, fill, edge, alpha)
+    elif scene == "one-house":
+        house(d, size, fill, edge, alpha + 14, count=1)
     elif scene == "bottles":
         bottles(d, size, fill, edge, alpha)
     elif scene == "one-bottle":
@@ -272,7 +323,20 @@ def main():
     for i, sc in enumerate(("bottles", "shelf", "bottles"), start=1):
         draw(f"cosmetics-{i}.jpg", panel, "dark", sc, shift=(i - 2) * 60)
 
-    draw("footer.jpg", (1800, 700), "dark", "front")
+    for i, sc in enumerate(("bus", "bus", "front"), start=1):
+        draw(f"transport-{i}.jpg", panel, "dark", sc, shift=(i - 2) * 60)
+    for i, sc in enumerate(("house", "house", "front"), start=1):
+        draw(f"real-estate-{i}.jpg", panel, "dark", sc, shift=(i - 2) * 60)
+
+    draw("p-bus.jpg", card, "light", "bus")
+    draw("p-house.jpg", card, "light", "one-house")
+    draw("p-plot.jpg", card, "light", "house")
+
+    foot = (1800, 700)
+    draw("footer-1.jpg", foot, "dark", "front")
+    draw("footer-2.jpg", foot, "dark", "bags", cols=8, rows=3)
+    draw("footer-3.jpg", foot, "dark", "house")
+    draw("footer.jpg", foot, "dark", "front")
 
     draw("band-1.jpg", band, "dark", "bags", cols=7, rows=4)
     draw("band-2.jpg", band, "dark", "front")

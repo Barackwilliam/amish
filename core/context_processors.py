@@ -24,9 +24,11 @@ def site(request):
             "socials": list(
                 SocialLink.objects.filter(is_active=True).select_related("division")
             ),
-            "footer_bg": SectionSlide.objects.filter(
-                is_active=True, slot=SectionSlide.Slot.FOOTER
-            ).first(),
+            "footer_slides": list(
+                SectionSlide.objects.filter(
+                    is_active=True, slot=SectionSlide.Slot.FOOTER
+                )[:4]
+            ),
             "nav_divisions": [d for d in divisions if d.is_live],
             "upcoming_divisions": [d for d in divisions if not d.is_live],
         }

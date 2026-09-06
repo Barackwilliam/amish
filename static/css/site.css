@@ -713,3 +713,8 @@ body.intro-on{overflow:hidden}
 @media (prefers-reduced-motion:reduce){
   .intro{display:none}
 }
+
+/* Footer: picha zinazobadilika kama hero */
+.foot__bg .stage{position:absolute;inset:0;overflow:hidden}
+.foot__bg .sl{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transform:none}
+.foot__bg .ken.on{animation:ken 11s linear forwards}

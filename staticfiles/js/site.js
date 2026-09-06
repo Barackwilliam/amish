@@ -1,3 +1,31 @@
+/* ---------- Utangulizi: unaonekana mara moja kwa session ---------- */
+(function () {
+  var intro = document.getElementById('intro');
+  if (!intro) return;
+
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var seen = false;
+  try { seen = sessionStorage.getItem('amish-intro') === '1'; } catch (e) {}
+
+  if (reduce || seen) {
+    intro.parentNode.removeChild(intro);
+    return;
+  }
+
+  document.body.classList.add('intro-on');
+  var close = function () {
+    intro.classList.add('done');
+    document.body.classList.remove('intro-on');
+    try { sessionStorage.setItem('amish-intro', '1'); } catch (e) {}
+    setTimeout(function () {
+      if (intro.parentNode) intro.parentNode.removeChild(intro);
+    }, 800);
+  };
+
+  setTimeout(close, 2600);
+  intro.addEventListener('click', close);   // kubonyeza kunaruka utangulizi
+})();
+
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 
 /* Drawer ya kushoto */

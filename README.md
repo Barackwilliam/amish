@@ -11,7 +11,7 @@ pip install -r requirements.txt
 # .env ipo tayari ikiwa na DATABASE_URL ya Supabase
 python manage.py migrate
 python manage.py seed_amish     # taarifa za kampuni
-python manage.py seed_products  # bidhaa 29 za sampuli (bei ni za kukadiria)
+python manage.py seed_products  # bidhaa 51 za sampuli (bei ni za kukadiria)
 python manage.py createsuperuser
 python manage.py runserver
 ```
@@ -91,6 +91,17 @@ Env vars zinazohitajika:
 | `S3_ACCESS_KEY_ID` / `S3_SECRET_ACCESS_KEY` | Supabase > Storage > S3 access keys |
 | `S3_BUCKET` | `media` (bucket iwe public) |
 | `S3_REGION` | mkoa wa project |
+
+### Bidhaa za sampuli
+`seed_products` inapakia matawi yote matano. Kupakia moja au mawili pekee:
+
+```bash
+python manage.py seed_products --only transport real-estate
+python manage.py seed_products --only cosmetics
+python manage.py seed_products --replace --only hardware   # kufuta kisha kupakia upya
+```
+
+Chaguo: `hardware`, `clothing`, `cosmetics`, `transport`, `real-estate`.
 
 ### Database
 `.env` ina `DATABASE_URL` ya Supabase transaction pooler (port 6543). Pooler

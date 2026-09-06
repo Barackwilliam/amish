@@ -19,8 +19,8 @@ from divisions.models import Category, Division
 
 INTRO = (
     "AMISH Company Limited is a Kigamboni trading company supplying building "
-    "materials, clothing and cosmetics to households, tradesmen and contractors "
-    "across Dar es Salaam, with further divisions in preparation."
+    "materials, clothing and cosmetics, and running transport and real estate "
+    "services across Dar es Salaam."
 )
 
 ABOUT_INTRO = (
@@ -160,20 +160,45 @@ DIVISIONS = [
             "business where a poor start is very hard to recover from. It will "
             "open here when it is ready to run properly."
         ),
-        "status": "coming_soon", "kind": "services", "order": 4,
+        "status": "coming_soon", "kind": "services", "order": 6,
         "launch_note": "In preparation", "categories": [],
     },
     {
         "name": "AMISH Transport", "slug": "transport",
-        "tagline": "Delivery of building materials and general goods, in preparation.",
+        "tagline": "Regional bus services and delivery of goods across Tanzania.",
         "description": (
-            "Our transport division is in preparation. It grew out of a request "
-            "we hear constantly from hardware customers: getting materials to "
-            "site reliably. Until it launches, we arrange delivery for larger "
-            "hardware orders through partners we trust."
+            "Our transport division runs two services from the same office. The first "
+            "is regional bus travel — scheduled coaches between Dar es Salaam and the "
+            "upcountry regions, booked in advance so you are not standing at the stand "
+            "hoping for a seat.\n\n"
+            "The second is cargo. We move building materials to site for our hardware "
+            "customers, and we carry general goods on the same routes our buses run, "
+            "which keeps the cost down for anyone sending something upcountry.\n\n"
+            "Seats and cargo space both fill up, particularly around holidays and the "
+            "start of school terms. Call or message us to book rather than arriving on "
+            "the day and hoping."
         ),
-        "status": "coming_soon", "kind": "services", "order": 5,
-        "launch_note": "In preparation", "categories": [],
+        "status": "active", "kind": "services", "order": 4,
+        "categories": ["Regional routes", "Cargo and delivery"],
+    },
+    {
+        "name": "AMISH Real Estate", "slug": "real-estate",
+        "tagline": "Plots, houses and rentals in Kigamboni and across Dar es Salaam.",
+        "description": (
+            "Our real estate division handles plots, houses and rentals, with most of "
+            "our listings in Kigamboni and the areas we know well. Knowing the ground "
+            "matters here: we can tell you which plots flood in the long rains and "
+            "which roads are actually passable in April, because we live here.\n\n"
+            "Every property we list is one we have visited, with documents we have "
+            "seen. Land disputes are the most expensive mistake a buyer can make in "
+            "Dar es Salaam, and we would rather lose a sale than pass on a title we "
+            "are not confident about.\n\n"
+            "Tell us your budget and the area you have in mind and we will show you "
+            "what fits. If we do not have it, we will say so rather than walk you "
+            "around something that does not."
+        ),
+        "status": "active", "kind": "services", "order": 5,
+        "categories": ["Plots for sale", "Houses for sale", "Rentals"],
     },
     {
         "name": "AMISH Furniture", "slug": "furniture",
@@ -183,7 +208,7 @@ DIVISIONS = [
             "hardware: the same customer who builds a house then has to furnish "
             "it, and would rather deal with a supplier they already know."
         ),
-        "status": "coming_soon", "kind": "products", "order": 6,
+        "status": "coming_soon", "kind": "products", "order": 7,
         "launch_note": "In preparation", "categories": [],
     },
 ]
@@ -247,9 +272,9 @@ HERO = [
      "people actually come looking for. Come and see, or message us for photos "
      "of what is in stock."),
     ("One company. Five divisions.",
-     "Hardware, Clothing and Cosmetics are trading today in Geza, Kigamboni. "
-     "Restaurants, transport and furniture are in preparation and will open here "
-     "when they are ready."),
+     "Five divisions are trading today from Geza, Kigamboni: hardware, clothing, "
+     "cosmetics, transport and real estate. Restaurants and furniture are in "
+     "preparation."),
 ]
 
 
@@ -371,8 +396,8 @@ class Command(BaseCommand):
         )
 
         for i, (value, label) in enumerate(
-            [("3", "Divisions trading today"),
-             ("3", "Divisions in preparation"),
+            [("5", "Divisions trading today"),
+             ("2", "Divisions in preparation"),
              ("6", "Days open each week")], start=1,
         ):
             Stat.objects.update_or_create(label=label, defaults={"value": value, "order": i})

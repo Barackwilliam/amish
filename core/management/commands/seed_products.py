@@ -252,6 +252,90 @@ COSMETICS = [
 ]
 
 
+TRANSPORT = [
+    ("Dar es Salaam – Dodoma", "Regional routes",
+     "Daily coach service, morning and evening departures.",
+     "Scheduled coach between Dar es Salaam and Dodoma, with morning and evening "
+     "departures. Seats are numbered and booked in advance, so you know where you "
+     "are sitting before you arrive at the stand. Fares vary with the season and "
+     "rise around holidays — call us for the fare on your travel date.",
+     None, "per seat", False, True, True),
+    ("Dar es Salaam – Morogoro", "Regional routes",
+     "Daily service on the Morogoro road.",
+     "A short run compared with our other routes, which makes it popular for "
+     "same-day business travel. Book ahead on Fridays and Sundays, when the road "
+     "is busiest.",
+     None, "per seat", False, False, True),
+    ("Dar es Salaam – Mbeya", "Regional routes",
+     "Long-distance coach to the southern highlands.",
+     "An overnight run to Mbeya. Because of the distance we keep the coaches "
+     "serviced on a fixed schedule rather than when something goes wrong, and we "
+     "do not overload beyond the seats sold.",
+     None, "per seat", False, False, True),
+    ("Dar es Salaam – Arusha", "Regional routes",
+     "Coach service to the northern circuit.",
+     "Service to Arusha for travel, business and onward connections to the "
+     "northern towns. Ask us about luggage allowance when you book, particularly "
+     "if you are carrying trade goods.",
+     None, "per seat", False, False, True),
+    ("Cargo to upcountry regions", "Cargo and delivery",
+     "Goods carried on our regional routes.",
+     "We carry parcels and trade goods on the same routes our buses run, which "
+     "keeps the price well below a dedicated truck. Charged by weight and "
+     "distance. Bring your goods packed and labelled, and we will confirm the "
+     "cost before we load.",
+     None, "by weight", False, False, True),
+    ("Building materials to site", "Cargo and delivery",
+     "Delivery of cement, bricks and materials.",
+     "Delivery for hardware orders, priced by distance and load size. Order your "
+     "materials and delivery together and we will quote you one figure rather "
+     "than leaving transport as a surprise at the end.",
+     None, "per trip", False, False, True),
+]
+
+REAL_ESTATE = [
+    ("Residential plots, Kigamboni", "Plots for sale",
+     "Surveyed plots with title, various sizes.",
+     "Surveyed residential plots in Kigamboni with documents we have seen "
+     "ourselves. We will walk the plot with you, show you the boundaries, and "
+     "explain honestly what the road and water situation is in the rains. Prices "
+     "depend on size and location — tell us your budget and we will show you what "
+     "fits it.",
+     None, "per plot", False, True, True),
+    ("Commercial plots", "Plots for sale",
+     "Roadside and commercial-zoned plots.",
+     "Plots suited to shops, workshops and other commercial use, generally with "
+     "road frontage. We will tell you what the zoning allows before you commit, "
+     "not after.",
+     None, "per plot", False, False, True),
+    ("Two and three bedroom houses", "Houses for sale",
+     "Completed family homes in Kigamboni and nearby.",
+     "Completed houses ready to move into. Every property we list is one we have "
+     "visited, with title documents we have inspected. Land and property disputes "
+     "are the most expensive mistake a buyer makes in Dar es Salaam, so we would "
+     "rather lose a sale than pass on paperwork we are not confident about.",
+     None, "per house", False, True, True),
+    ("Houses under construction", "Houses for sale",
+     "Properties available before completion.",
+     "Homes still being built, usually available below the finished price. We "
+     "will be clear with you about what is complete, what is not, and what the "
+     "remaining work will realistically cost.",
+     None, "per house", False, False, True),
+    ("Family homes to rent", "Rentals",
+     "Long-term rentals, two to four bedrooms.",
+     "Family houses available on long lets. We handle the agreement and the "
+     "handover so both sides know what was agreed, which prevents most of the "
+     "arguments that come later.",
+     None, "per month", False, False, True),
+    ("Rooms and self-contained units", "Rentals",
+     "Smaller units for singles and couples.",
+     "Single rooms and self-contained units, suited to students, young "
+     "professionals and small families. Availability changes constantly — call us "
+     "for what is open this week rather than relying on an old listing.",
+     None, "per month", False, False, True),
+]
+
+
 class Command(BaseCommand):
     help = "Loads sample products for Hardware and Clothing"
 
@@ -260,11 +344,32 @@ class Command(BaseCommand):
             "--replace", action="store_true",
             help="Delete existing products first instead of updating them.",
         )
+        parser.add_argument(
+            "--only", nargs="+", metavar="SLUG",
+            help=(
+                "Load only these divisions. Choices: hardware, clothing, "
+                "cosmetics, transport, real-estate."
+            ),
+        )
 
     def handle(self, *args, **options):
         from divisions.models import Product
 
-        pairs = [("hardware", HARDWARE), ("clothing", CLOTHING), ("cosmetics", COSMETICS)]
+        pairs = [("hardware", HARDWARE), ("clothing", CLOTHING), ("cosmetics", COSMETICS),
+                 ("transport", TRANSPORT), ("real-estate", REAL_ESTATE)]
+
+        wanted = options.get("only")
+        if wanted:
+            known = {slug for slug, _ in pairs}
+            unknown = set(wanted) - known
+            if unknown:
+                self.stderr.write(
+                    f"Unknown division(s): {', '.join(sorted(unknown))}. "
+                    f"Choices: {', '.join(sorted(known))}"
+                )
+                return
+            pairs = [(slug, rows) for slug, rows in pairs if slug in wanted]
+
         made = 0
 
         for slug, rows in pairs:
