@@ -460,3 +460,55 @@ main{animation:pageIn .5s var(--ease) both}
   main{animation:none}
   .panel:hover,.card:hover,.wcard:hover,.btn:hover{transform:none}
 }
+
+/* ---------- Sections za paper: gradient nyepesi ya blue ----------
+   Badala ya kijivu kilichoganda, kina kidogo kinachotoka kwenye blue
+   ya kampuni. Nyeupe chini ili section inayofuata ianze safi. */
+.sec.paper{background:linear-gradient(180deg,#EEF2FB 0%,#F7F9FD 58%,#FFFFFF 100%)}
+.marq{background:linear-gradient(180deg,#F7F9FD 0%,#FFFFFF 100%)!important}
+
+/* Kadi ziendelee kuonekana juu ya gradient */
+.sec.paper .card,
+.sec.paper .soon,
+.sec.paper .wcard{background:#fff;box-shadow:0 1px 3px rgba(10,27,74,.05)}
+.sec.paper .arrows button{background:#fff}
+
+/* ================= Ukanda wa uhakikisho: kadi zinazoelea ================= */
+.trust{background:transparent!important;position:relative;z-index:6;padding:0;overflow:visible}
+.trust::before{content:"";position:absolute;left:0;right:0;top:0;height:52%;
+  background:linear-gradient(180deg,var(--blue) 0%,#002C96 100%);z-index:-1}
+.trust .wrap{display:grid!important;grid-template-columns:repeat(4,1fr);gap:18px!important;
+  background:none!important;padding:0 0 clamp(40px,5vw,64px)}
+.tcard{background:#fff;border-radius:14px;padding:28px 24px 26px;
+  border:1px solid rgba(255,255,255,.7);
+  box-shadow:0 18px 44px rgba(6,16,50,.16),0 2px 6px rgba(6,16,50,.06);
+  transition:transform .35s var(--ease),box-shadow .35s var(--ease)}
+.tcard:hover{transform:translateY(-6px);box-shadow:0 26px 60px rgba(6,16,50,.22)}
+.tcard__ico{display:grid;place-items:center;width:46px;height:46px;border-radius:12px;
+  background:linear-gradient(145deg,#EEF2FB,#DCE5F8);color:var(--blue);margin-bottom:16px}
+.tcard__ico svg{width:23px;height:23px}
+.tcard b{display:block;font-weight:800;font-size:1.06rem;letter-spacing:-.025em;
+  color:var(--ink);margin-bottom:5px;line-height:1.25}
+.tcard span{display:block;font-size:.9rem;line-height:1.55;color:var(--mute)}
+
+/* Kadi zinaingiliana na hero kwenye kompyuta */
+@media (min-width:1025px){
+  .trust{margin-top:-64px}
+  .trust::before{top:64px;height:calc(52% - 64px)}
+}
+
+@media (max-width:1024px){
+  .trust .wrap{grid-template-columns:1fr!important;gap:14px!important;
+    padding-top:30px;padding-bottom:34px}
+  .trust::before{height:100%}
+  .tcard{display:grid;grid-template-columns:46px 1fr;column-gap:16px;
+    align-items:center;padding:18px 20px;border-radius:12px}
+  .tcard__ico{grid-row:span 2;margin-bottom:0;align-self:center}
+  .tcard b{margin-bottom:2px;font-size:1rem}
+  .tcard span{font-size:.87rem}
+}
+
+/* Link ya JamiiTek kwenye footer */
+.credit{display:inline!important;padding:0!important;color:#B9C2D6;
+  border-bottom:1px solid rgba(255,255,255,.28);transition:color .25s,border-color .25s}
+.credit:hover{color:#fff;border-bottom-color:#fff;transform:none!important}

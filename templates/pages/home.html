@@ -54,12 +54,46 @@
 </section>
 
 <section class="trust">
-  <svg class="bgart" style="inset:0;width:100%;height:100%" preserveAspectRatio="none" aria-hidden="true"><rect width="100%" height="100%" fill="url(#brick)" opacity=".5"/></svg>
   <div class="wrap">
-    <div><b>{{ contact.ward }}</b><span>{{ contact.street }}</span></div>
-    <div><b>{{ hours|open_days }}</b><span>{{ hours|open_time }}</span></div>
-    <div><b>Today's price by phone</b><span>Call before you travel</span></div>
-    <div><b>Large orders</b><span>We can arrange delivery to site</span></div>
+    <div class="tcard rev">
+      <span class="tcard__ico">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/>
+        </svg>
+      </span>
+      <b>{{ contact.ward }}</b>
+      <span>{{ contact.street }}</span>
+    </div>
+
+    <div class="tcard rev d1">
+      <span class="tcard__ico">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/>
+        </svg>
+      </span>
+      <b>{{ hours|open_days }}</b>
+      <span>{{ hours|open_time }}</span>
+    </div>
+
+    <div class="tcard rev d2">
+      <span class="tcard__ico">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M6.5 3h4l2 5-2.5 1.5a12 12 0 0 0 4.5 4.5L16 11.5l5 2v4a2 2 0 0 1-2.2 2A16 16 0 0 1 4.5 5.2 2 2 0 0 1 6.5 3Z"/>
+        </svg>
+      </span>
+      <b>Today's price by phone</b>
+      <span>Call before you travel</span>
+    </div>
+
+    <div class="tcard rev d3">
+      <span class="tcard__ico">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M3 7h11v9H3zM14 10h4l3 3v3h-7z"/><circle cx="7" cy="18" r="1.8"/><circle cx="17.5" cy="18" r="1.8"/>
+        </svg>
+      </span>
+      <b>Large orders</b>
+      <span>We can arrange delivery to site</span>
+    </div>
   </div>
 </section>
 

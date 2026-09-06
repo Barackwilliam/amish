@@ -78,11 +78,8 @@ h1,h2,h3{line-height:1.06;letter-spacing:-.035em;font-weight:800}
 .rev.in{opacity:1;transform:none}
 .rev.d1{transition-delay:.08s}.rev.d2{transition-delay:.16s}.rev.d3{transition-delay:.24s}
 
-.trust{background:var(--blue);color:#fff;position:relative;overflow:hidden}
-.trust .wrap{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:rgba(255,255,255,.18)}
-.trust div{background:var(--blue);padding:30px 26px}
-.trust b{display:block;font-weight:800;font-size:1.06rem;letter-spacing:-.02em;margin-bottom:5px}
-.trust span{font-size:.89rem;opacity:.82;line-height:1.5}
+/* Ukanda wa uhakikisho umeandikwa upya chini kama kadi (.tcard) */
+.trust{position:relative;overflow:visible}
 
 .panels{display:grid;grid-template-columns:1fr 1fr;gap:22px}
 .panel{position:relative;min-height:480px;overflow:hidden;border-radius:4px;display:flex;align-items:flex-end;color:#fff}
@@ -170,10 +167,9 @@ h1,h2,h3{line-height:1.06;letter-spacing:-.035em;font-weight:800}
 @media (max-width:1024px){
   .bar .tel{display:none}
   .hero .art{opacity:.18;right:-170px}
-  .trust .wrap,.why,.panels,.soonrow,.vals,.products,.team,.quotes,
+.why,.panels,.soonrow,.vals,.products,.team,.quotes,
   .band .wrap,.split,.detail,.foot .grid,.figures .wrap{grid-template-columns:1fr}
   .why{gap:14px}
-  .trust .wrap{gap:1px}
   .form__row{grid-template-columns:1fr}
 }
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.rev{opacity:1;transform:none}.txt>*{opacity:1;transform:none}.sl:first-child{opacity:1}}
@@ -303,7 +299,7 @@ h1,h2,h3{line-height:1.06;letter-spacing:-.035em;font-weight:800}
   .head p{font-size:.98rem}
   .card{flex:0 0 78vw}
   .wcard{padding:26px 24px}
-  .trust div{padding:24px 20px}
+  
   .band{padding:64px 0}
   .marq figure{width:230px;height:165px}
 }
@@ -313,7 +309,6 @@ h1,h2,h3{line-height:1.06;letter-spacing:-.035em;font-weight:800}
    maandishi maneno mawili kwa mstari. Chini ya 760px kila gridi
    inakuwa safu moja. */
 @media (max-width:1024px){
-  .trust .wrap,
   .why,
   .panels,
   .soonrow,
@@ -331,7 +326,6 @@ h1,h2,h3{line-height:1.06;letter-spacing:-.035em;font-weight:800}
   .grid-photos{grid-template-columns:1fr 1fr;gap:10px}
   .detail__thumbs{grid-template-columns:repeat(4,1fr)}
 
-  .trust .wrap{gap:1px}
   .why{gap:14px}
   .wcard{padding:24px 22px}
   .wcard .n{margin-bottom:10px}
@@ -360,7 +354,7 @@ img,svg,iframe,video{max-width:100%}
    ================================================================== */
 
 /* ---------- Kasi: sehemu za chini hazichorwi hadi zikaribie ---------- */
-.sec,.band,.marq,.figures,.trust{content-visibility:auto;contain-intrinsic-size:auto 700px}
+.sec,.band,.marq,.figures{content-visibility:auto;contain-intrinsic-size:auto 700px}
 .foot{content-visibility:auto;contain-intrinsic-size:auto 640px}
 img{background:var(--paper)}
 
@@ -460,3 +454,68 @@ main{animation:pageIn .5s var(--ease) both}
   main{animation:none}
   .panel:hover,.card:hover,.wcard:hover,.btn:hover{transform:none}
 }
+
+/* ---------- Sections za paper: gradient nyepesi ya blue ----------
+   Badala ya kijivu kilichoganda, kina kidogo kinachotoka kwenye blue
+   ya kampuni. Nyeupe chini ili section inayofuata ianze safi. */
+.sec.paper{background:linear-gradient(180deg,#EEF2FB 0%,#F7F9FD 58%,#FFFFFF 100%)}
+.marq{background:linear-gradient(180deg,#F7F9FD 0%,#FFFFFF 100%)!important}
+
+/* Kadi ziendelee kuonekana juu ya gradient */
+.sec.paper .card,
+.sec.paper .soon,
+.sec.paper .wcard{background:#fff;box-shadow:0 1px 3px rgba(10,27,74,.05)}
+.sec.paper .arrows button{background:#fff}
+
+/* ================= Ukanda wa uhakikisho: kadi zinazoelea ================= */
+.trust{background:transparent!important;position:relative;z-index:6;padding:0;overflow:visible}
+.trust::before{content:"";position:absolute;left:0;right:0;top:0;height:52%;
+  background:linear-gradient(180deg,var(--blue) 0%,#002C96 100%);z-index:-1}
+.trust .wrap{display:grid!important;grid-template-columns:repeat(4,1fr);gap:18px!important;
+  background:none!important;padding:0 0 clamp(40px,5vw,64px)}
+.tcard{background:#fff;border-radius:14px;padding:28px 24px 26px;
+  border:1px solid rgba(255,255,255,.7);
+  box-shadow:0 18px 44px rgba(6,16,50,.16),0 2px 6px rgba(6,16,50,.06);
+  transition:transform .35s var(--ease),box-shadow .35s var(--ease)}
+.tcard:hover{transform:translateY(-6px);box-shadow:0 26px 60px rgba(6,16,50,.22)}
+.tcard__ico{display:grid;place-items:center;width:46px;height:46px;border-radius:12px;
+  background:linear-gradient(145deg,#EEF2FB,#DCE5F8);color:var(--blue);margin-bottom:16px}
+.tcard__ico svg{width:23px;height:23px}
+.tcard b{display:block;font-weight:800;font-size:1.06rem;letter-spacing:-.025em;
+  color:var(--ink);margin-bottom:5px;line-height:1.25}
+.tcard span{display:block;font-size:.9rem;line-height:1.55;color:var(--mute)}
+
+/* Kadi zinaingiliana na hero kwenye kompyuta */
+@media (min-width:1025px){
+  .trust{margin-top:-64px}
+  .trust::before{top:64px;height:calc(52% - 64px)}
+}
+
+@media (max-width:1024px){
+  .trust .wrap{grid-template-columns:1fr!important;gap:14px!important;
+    padding-top:30px;padding-bottom:34px}
+  .trust::before{height:100%}
+  .tcard{display:grid;grid-template-columns:46px 1fr;column-gap:16px;
+    align-items:center;padding:18px 20px;border-radius:12px}
+  .tcard__ico{grid-row:span 2;margin-bottom:0;align-self:center}
+  .tcard b{margin-bottom:2px;font-size:1rem}
+  .tcard span{font-size:.87rem}
+}
+
+/* Link ya JamiiTek kwenye footer */
+.credit{display:inline!important;padding:0!important;color:#B9C2D6;
+  border-bottom:1px solid rgba(255,255,255,.28);transition:color .25s,border-color .25s}
+.credit:hover{color:#fff;border-bottom-color:#fff;transform:none!important}
+
+/* ---------- Kadi za uhakikisho: umaliziaji ---------- */
+.trust::before{background:linear-gradient(180deg,var(--blue) 0%,#00247E 100%)}
+.tcard{position:relative;overflow:hidden;background:#fff}
+.tcard::before{content:"";position:absolute;left:0;right:0;top:0;height:3px;
+  background:linear-gradient(90deg,var(--blue),#5C7DF0);transform:scaleX(0);
+  transform-origin:left;transition:transform .45s var(--ease)}
+.tcard:hover::before{transform:scaleX(1)}
+.tcard__ico{background:linear-gradient(145deg,var(--blue),#0A2E93);color:#fff;
+  box-shadow:0 8px 18px rgba(0,58,188,.28);transition:transform .4s var(--ease)}
+.tcard:hover .tcard__ico{transform:translateY(-2px) rotate(-4deg)}
+.tcard b{color:var(--ink)}
+.tcard span{color:var(--mute)}
