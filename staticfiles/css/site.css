@@ -341,3 +341,16 @@ h1,h2,h3{line-height:1.06;letter-spacing:-.035em;font-weight:800}
   .val{padding-left:18px}
   .foot .grid{gap:30px}
 }
+
+/* ===== Kinga ya kuteleza kwa upande =====
+   Michoro ya SVG na paneli zilizopanuka zinaweza kupita ukingo wa skrini
+   kwenye simu, na kufanya ukurasa uteleze kushoto na kulia. */
+html,body{max-width:100%;overflow-x:clip}
+.sec,.band,.marq,.foot,.hero,.phead,.trust,.figures{max-width:100vw}
+.bgart,.hero .art,.band .art,.foot .art,.drawer .deco{max-width:100vw}
+img,svg,iframe,video{max-width:100%}
+@media (max-width:1024px){
+  .band .art{width:140%!important;left:50%!important}
+  .foot .art{right:-60px;width:340px}
+  .marq{max-width:100vw}
+}
