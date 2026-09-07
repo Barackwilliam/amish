@@ -153,7 +153,7 @@ h1,h2,h3{line-height:1.06;letter-spacing:-.035em;font-weight:800}
 .q .a{max-height:0;overflow:hidden;transition:max-height .4s ease}
 .q .a p{color:var(--mute);padding-bottom:22px;max-width:64ch}
 
-.foot{background:var(--ink);color:#98A0B4;padding:clamp(56px,7vw,92px) 0 30px;position:relative;overflow:hidden}
+.foot{background:var(--ink);color:#98A0B4;padding:0 0 26px;position:relative;overflow:hidden;max-width:100%}
 .foot .art{position:absolute;right:-120px;bottom:-140px;width:640px;opacity:.07}
 .foot .grid{display:grid;grid-template-columns:1.6fr 1fr 1fr 1.2fr;gap:40px;padding-bottom:44px}
 .foot h5{color:#fff;font-weight:800;font-size:.98rem;margin-bottom:15px}
@@ -236,7 +236,6 @@ h1,h2,h3{line-height:1.06;letter-spacing:-.035em;font-weight:800}
 .fact__label{font-size:.8rem;color:var(--mute);margin:0 0 3px}
 .fact__value{font-weight:700;margin:0;font-size:1.05rem}
 .map{width:100%;aspect-ratio:16/10;border:0;border-radius:4px;background:var(--paper)}
-@media(max-width:900px){.split,.detail{grid-template-columns:1fr}.products{grid-template-columns:repeat(auto-fill,minmax(200px,1fr))}}
 @media (max-width:1024px){.form__row{grid-template-columns:1fr}}
 
 
@@ -354,8 +353,10 @@ img,svg,iframe,video{max-width:100%}
    ================================================================== */
 
 /* ---------- Kasi: sehemu za chini hazichorwi hadi zikaribie ---------- */
-.sec,.band,.marq,.figures{content-visibility:auto;contain-intrinsic-size:auto 700px}
-.foot{content-visibility:auto;contain-intrinsic-size:auto 640px}
+/* content-visibility inatumika tu kwenye sehemu zisizo na picha ya
+   nyuma ya position:absolute. Kwenye .foot na .band ilikuwa inavunja
+   mpangilio kwa sababu inaleta contain:size. */
+.marq,.figures{content-visibility:auto;contain-intrinsic-size:auto 500px}
 img{background:var(--paper)}
 
 /* ---------- Footer yenye picha ya nyuma ---------- */
@@ -469,8 +470,8 @@ main{animation:pageIn .5s var(--ease) both}
 
 /* ================= Ukanda wa uhakikisho: kadi zinazoelea ================= */
 .trust{background:transparent!important;position:relative;z-index:6;padding:0;overflow:visible}
-.trust::before{content:"";position:absolute;left:0;right:0;top:0;height:52%;
-  background:linear-gradient(180deg,var(--blue) 0%,#002C96 100%);z-index:-1}
+.trust::before{content:"";position:absolute;left:0;right:0;top:0;height:52%;z-index:-1;
+  background:linear-gradient(180deg,var(--blue) 0%,#00247E 100%)}
 .trust .wrap{display:grid!important;grid-template-columns:repeat(4,1fr);gap:18px!important;
   background:none!important;padding:0 0 clamp(40px,5vw,64px)}
 .tcard{background:#fff;border-radius:14px;padding:28px 24px 26px;
@@ -508,7 +509,6 @@ main{animation:pageIn .5s var(--ease) both}
 .credit:hover{color:#fff;border-bottom-color:#fff;transform:none!important}
 
 /* ---------- Kadi za uhakikisho: umaliziaji ---------- */
-.trust::before{background:linear-gradient(180deg,var(--blue) 0%,#00247E 100%)}
 .tcard{position:relative;overflow:hidden;background:#fff}
 .tcard::before{content:"";position:absolute;left:0;right:0;top:0;height:3px;
   background:linear-gradient(90deg,var(--blue),#5C7DF0);transform:scaleX(0);
@@ -521,7 +521,6 @@ main{animation:pageIn .5s var(--ease) both}
 .tcard span{color:var(--mute)}
 
 /* ======================= Footer ya kisasa ======================= */
-.foot{padding:0 0 26px}
 .foot .wrap{padding-top:0}
 
 /* Ukanda wa wito wa kuchukua hatua */
@@ -718,3 +717,21 @@ body.intro-on{overflow:hidden}
 .foot__bg .stage{position:absolute;inset:0;overflow:hidden}
 .foot__bg .sl{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transform:none}
 .foot__bg .ken.on{animation:ken 11s linear forwards}
+
+/* ---------- Footer: picha ibaki nyuma, maandishi yasomeke ---------- */
+.foot__bg img,.foot__bg .sl{filter:grayscale(.35) brightness(.42) contrast(1.05)}
+.foot__tint{background:
+  linear-gradient(180deg,rgba(8,11,20,.97) 0%,rgba(8,11,20,.93) 40%,rgba(10,27,74,.97) 100%)!important}
+.foot__tint::after{content:"";position:absolute;inset:0;
+  background:radial-gradient(120% 90% at 50% 45%,rgba(8,11,20,.55) 0%,transparent 70%)}
+.foot .wrap{max-width:100%}
+
+/* ---------- Kinga imara ya kuteleza kwa upande ----------
+   overflow-x:clip haifanyi kazi kwenye browser zote; hidden ni salama zaidi. */
+html{overflow-x:hidden}
+body{overflow-x:hidden;position:relative;width:100%}
+.foot__bg,.foot__bg .stage{max-width:100%;overflow:hidden}
+.foot .wrap,.foot .grid,.foot__cta{max-width:100%;min-width:0}
+.foot .grid > div{min-width:0}
+.foot .intro,.foot__line,.foot__line a{overflow-wrap:anywhere}
+.foot__cta::after{right:-40px;width:220px;height:220px}
