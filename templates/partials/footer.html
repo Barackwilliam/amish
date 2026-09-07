@@ -41,7 +41,7 @@
           {% else %}<i></i>{% endif %}
           <span><b>{{ settings_obj.company_name|cut:" Company Limited" }}</b><s>{{ settings_obj.slogan }}</s></span>
         </a>
-        <p class="intro">{{ settings_obj.short_intro }}</p>
+        <p class="foot__intro">{{ settings_obj.short_intro }}</p>
         {% if socials %}
         <div class="foot__social">
           {% for s in socials %}

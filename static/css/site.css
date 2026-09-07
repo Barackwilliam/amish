@@ -159,7 +159,7 @@ h1,h2,h3{line-height:1.06;letter-spacing:-.035em;font-weight:800}
 .foot h5{color:#fff;font-weight:800;font-size:.98rem;margin-bottom:15px}
 .foot a{display:block;padding:5px 0;font-size:.94rem}
 .foot a:hover{color:#fff}
-.foot .intro{max-width:34ch;font-size:.94rem;margin:16px 0 20px}
+.foot__intro{max-width:34ch;font-size:.94rem;margin:16px 0 20px;color:#A6AFC4}
 .base{border-top:1px solid rgba(255,255,255,.1);padding-top:22px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;font-size:.85rem;position:relative;z-index:3}
 .wa{position:fixed;right:18px;bottom:18px;z-index:90;width:56px;height:56px;border-radius:50%;background:#1FA855;display:grid;place-items:center;color:#fff;font-weight:800;box-shadow:0 10px 26px rgba(0,0,0,.25);animation:pulse 2.6s infinite}
 @keyframes pulse{50%{box-shadow:0 10px 26px rgba(0,0,0,.25),0 0 0 14px rgba(31,168,85,.14)}}
@@ -659,12 +659,12 @@ main{animation:pageIn .5s var(--ease) both}
 }
 
 /* ================== Utangulizi: logo inayojichora ================== */
-.intro{position:fixed;inset:0;z-index:200;display:grid;place-items:center;
+.splash{position:fixed;inset:0;z-index:200;display:grid;place-items:center;
   background:radial-gradient(120% 100% at 50% 40%,#12235E 0%,#0A1B4A 45%,#060B1C 100%);
   opacity:1;transition:opacity .7s var(--ease),visibility .7s}
-.intro.done{opacity:0;visibility:hidden;pointer-events:none}
-.intro__mark{width:min(72vw,340px);height:auto}
-body.intro-on{overflow:hidden}
+.splash.done{opacity:0;visibility:hidden;pointer-events:none}
+.splash__mark{width:min(72vw,340px);height:auto}
+body.splash-on{overflow:hidden}
 
 /* Duara zinajichora */
 .i-ring{stroke-dasharray:1300;stroke-dashoffset:1300;
@@ -710,7 +710,7 @@ body.intro-on{overflow:hidden}
 .i-l{transform-box:fill-box;transform-origin:center}
 
 @media (prefers-reduced-motion:reduce){
-  .intro{display:none}
+  .splash{display:none}
 }
 
 /* Footer: picha zinazobadilika kama hero */
@@ -733,5 +733,5 @@ body{overflow-x:hidden;position:relative;width:100%}
 .foot__bg,.foot__bg .stage{max-width:100%;overflow:hidden}
 .foot .wrap,.foot .grid,.foot__cta{max-width:100%;min-width:0}
 .foot .grid > div{min-width:0}
-.foot .intro,.foot__line,.foot__line a{overflow-wrap:anywhere}
+.foot__intro,.foot__line,.foot__line a{overflow-wrap:anywhere}
 .foot__cta::after{right:-40px;width:220px;height:220px}

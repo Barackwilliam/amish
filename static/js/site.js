@@ -1,29 +1,29 @@
 /* ---------- Utangulizi: unaonekana mara moja kwa session ---------- */
 (function () {
-  var intro = document.getElementById('intro');
-  if (!intro) return;
+  var splash = document.getElementById('splash');
+  if (!splash) return;
 
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var seen = false;
-  try { seen = sessionStorage.getItem('amish-intro') === '1'; } catch (e) {}
+  try { seen = sessionStorage.getItem('amish-splash') === '1'; } catch (e) {}
 
   if (reduce || seen) {
-    intro.parentNode.removeChild(intro);
+    splash.parentNode.removeChild(splash);
     return;
   }
 
-  document.body.classList.add('intro-on');
+  document.body.classList.add('splash-on');
   var close = function () {
-    intro.classList.add('done');
-    document.body.classList.remove('intro-on');
-    try { sessionStorage.setItem('amish-intro', '1'); } catch (e) {}
+    splash.classList.add('done');
+    document.body.classList.remove('splash-on');
+    try { sessionStorage.setItem('amish-splash', '1'); } catch (e) {}
     setTimeout(function () {
-      if (intro.parentNode) intro.parentNode.removeChild(intro);
+      if (intro.parentNode) splash.parentNode.removeChild(splash);
     }, 800);
   };
 
   setTimeout(close, 2600);
-  intro.addEventListener('click', close);   // kubonyeza kunaruka utangulizi
+  splash.addEventListener('click', close);   // kubonyeza kunaruka utangulizi
 })();
 
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
